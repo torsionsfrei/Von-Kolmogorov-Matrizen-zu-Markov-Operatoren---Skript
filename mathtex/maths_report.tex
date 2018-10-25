@@ -1,0 +1,92 @@
+\usepackage{amsfonts,amssymb,amsmath,latexsym,amsthm,ifthen}
+\usepackage{titlesec}
+\usepackage[left=4.0cm,right=4.0cm,top=1.5cm,bottom=1.5cm,includeheadfoot]{geometry}
+
+\theoremstyle{plain}
+\newtheorem{satz}{Satz}[section]
+
+% #### Gesonderte Einstellungen für Überschriften ####
+% \titleformat{\chapter}
+% [display]
+% {\centering\scshape}
+% {\vspace{-40px}\large\textsc{Kapitel \thechapter}}
+% {0em}
+% {\LARGE}
+% [\vspace{-20px}]
+% \titleformat{\section}
+% [hang]
+% {\centering\scshape}
+% {\Large\thesection}
+% {0.5em}
+% {\Large}
+% []
+% \titlespacing*{\section}{0px}{25px}{15px}
+
+% #### Kopf- und Fußzeile ####
+
+\renewcommand{\chaptername}{}
+\fancypagestyle{plain}{%
+  \fancyhf{}
+  \fancyhead[L]{
+    \small
+    \ifthenelse{\isodd{\value{page}}}
+    {
+      \ifthenelse{\isundefined{\vorl}}
+      {~}
+      {\text{Vorläufige Version!}}
+    }
+    {\thepage}
+  }
+  \fancyhead[R]{
+    \small
+    \ifthenelse{\isodd{\value{page}}}
+    {\thepage}
+    {
+      \ifthenelse{\isundefined{\vorl}}
+      {~}
+      {\text{Vorläufige Version!}}
+    }
+  }
+  \renewcommand{\headrulewidth}{0.2pt}
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{
+  \small
+  \ifthenelse{\isodd{\value{page}}}
+  {
+    \ifthenelse{\isundefined{\vorl}}
+    {~}
+    {\text{Vorläufige Version!}}
+  }
+  {\thepage}
+}
+\fancyhead[R]{
+  \small
+  \ifthenelse{\isodd{\value{page}}}
+  {\thepage}
+  {
+    \ifthenelse{\isundefined{\vorl}}
+    {~}
+    {\text{Vorläufige Version!}}
+  }
+}
+
+\renewcommand{\headrulewidth}{0.2pt}
+\renewcommand{\footrulewidth}{0.2pt}
+%\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+
+
+\newcommand{\Titelblatt}[3]{
+  \begin{titlepage}
+    ~\vspace{180pt}
+    \begin{center}
+      \huge\textsc{#1}\vspace{5pt}\\
+      \Large{#2}\vspace{30pt}\\
+      \large{ \textsc{}}\vspace{330pt}\\
+      \small Geschrieben mit \LaTeX~ von Jörg Schwartz\\Tübingen, der \today
+      \normalsize
+    \end{center}
+  \end{titlepage}
+}

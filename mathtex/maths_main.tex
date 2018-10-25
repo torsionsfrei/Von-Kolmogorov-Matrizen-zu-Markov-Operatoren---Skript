@@ -1,0 +1,138 @@
+\usepackage{amsfonts,amssymb,amsmath,latexsym,amsthm}\usepackage{MnSymbol,wasysym}
+
+\usepackage{ulem,nicefrac}
+\usepackage[all]{xy}
+
+\renewcommand{\labelenumi}{\upshape(\roman{enumi})}
+
+%Neue Umgebungen
+\theoremstyle{plain}
+\newtheorem{folg}[satz]{Folgerung}
+\newtheorem{lem}[satz]{Lemma}
+\newtheorem{prop}[satz]{Proposition}
+\newtheorem{beh}[satz]{Behauptung}
+\newtheorem{axiom}[satz]{Axiom}
+\newtheorem{hi}[satz]{Hilfssatz}
+\newtheorem{algo}[satz]{Algorithmus}
+\newtheorem{aus}[satz]{Aussage}
+\newtheorem{theo}[satz]{Theorem}
+
+\theoremstyle{definition}
+\newtheorem{defi}[satz]{Definition}
+\newtheorem{konstr}[satz]{Konstruktion}
+\newtheorem{verein}[satz]{Vereinbarung}
+\newtheorem{bem}[satz]{Bemerkung}
+\newtheorem{bsp}[satz]{Beispiel}
+\newtheorem{mem}[satz]{Erinnerung}
+\newtheorem{aufg}[satz]{Aufgabe}
+\newtheorem{probl}[satz]{Problemstellung}
+\newtheorem{moti}[satz]{Motivation}
+
+\renewcommand*{\proofname}{Beweis}
+
+%Abkürzungen
+\newcommand{\sg}{\operatorname{sg}}
+\newcommand{\mat}{\operatorname{Mat}}
+\newcommand{\Kern}{\operatorname{Kern}}
+\newcommand{\Bild}{\operatorname{Bild}}
+\newcommand{\enom}{\operatorname{End}}
+\newcommand{\spur}{\operatorname{Spur}}
+\newcommand{\cond}{\operatorname{cond}}
+
+\newcommand{\im}{\operatorname{im}}
+\newcommand{\ord}{\operatorname{ord}}
+\newcommand{\D}{\operatorname{D}}
+
+\newcommand{\zop}{\operatorname{ZOp}}
+\newcommand{\spop}{\operatorname{SpOp}}
+\newcommand{\sprang}{\operatorname{SpRang}}
+\newcommand{\zrang}{\operatorname{ZRang}}
+\newcommand{\rang}{\operatorname{Rang}}
+\newcommand{\Rang}{\operatorname{Rang}}
+\newcommand{\rg}{\operatorname{rg}}
+\newcommand{\rd}{\operatorname{rd}}
+\newcommand{\eps}{\operatorname{eps}}
+
+\newcommand{\ZOp}{\operatorname{ZOp}}
+\newcommand{\SpOp}{\operatorname{SpOp}}
+
+\newcommand{\GL}{\operatorname{GL}}
+\newcommand{\diag}{\operatorname{diag}}
+
+\newcommand{\lin}{\operatorname{Lin}}
+\newcommand{\Lin}{\operatorname{Lin}}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\K}{\mathbb{K}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\E}{\mathbb{E}}
+\renewcommand{\L}{\mathbb{L}}
+\newcommand{\Leb}{\mathcal{L}}
+\newcommand{\Ceb}{\mathcal{C}}
+\newcommand{\V}{\mathcal{V}}
+
+
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\B}{\mathcal{B}}
+\newcommand{\A}{\mathcal{A}}
+
+\renewcommand{\S}{\mathcal{S}}
+
+\newcommand{\loc}{\text{loc}}
+\newcommand{\sing}{\text{sing}}
+\newcommand{\abs}{\text{abs}}
+\newcommand{\Lip}{\on{Lip}}
+
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\on}[1]{\operatorname{#1}}
+\newcommand{\konv}[1]{\xrightarrow[#1]{~}}
+\renewcommand{\Im}{\mathrm{Im}}
+\renewcommand{\Re}{\mathrm{Re}}
+
+\newcommand{\LU}{\mathrm{LU}}
+\newcommand{\RO}{\mathrm{RO}}
+\renewcommand{\d}{\mathrm{d}}
+\newcommand{\area}{\on{area}}
+\newcommand{\vol}{\on{vol}}
+
+% \newcommand{\bigcupdot}{\mathop{\dot{\bigcup}}}
+\renewcommand{\mit}{\,\middle|\,}
+
+\newcommand{\vertiii}[1]{{\left\vert\kern-0.25ex\left\vert\kern-0.25ex\left\vert #1\right\vert\kern-0.25ex\right\vert\kern-0.25ex\right\vert}}
+
+\newcommand{\lb}{\vspace{6pt}\\}
+
+ \newcommand{\twomeasure}{\varbigcirc\hspace{-6pt}\textcolor{white}{\filledmedsquare}}
+\newcommand{\threemeasure}{\varbigcirc}
+
+\newcommand{\brevis}{
+  \raisebox{-1px}{\ensuremath{\shortmid}}
+  \hspace{-1.5mm}
+  \mathlarger{
+    \raisebox{-1.5px}{=}
+  }
+  \hspace{-5.5pt}
+  \textcolor{white}{\filledmedsquare}
+  \hspace{-10.5pt}
+  \raisebox{-1px}{\ensuremath{\shortmid}}\hspace{-0.8mm}
+}
+
+\newcommand{\ganz}{\mathlarger{\mathlarger{\mathlarger{\fullnote}}}}
+\newcommand{\halb}{\mathlarger{\mathlarger{\mathlarger{\halfnote}}}}
+\newcommand{\viertel}{\mathlarger{\mathlarger{\mathlarger{\quarternote}}}}
+
+
+\DeclareMathOperator*{\esssup}{ess\,sup}
+\DeclareMathOperator*{\essinf}{ess\,inf}
+
+\makeatletter
+\g@addto@macro\normalsize{
+  \setlength{\abovedisplayskip}{5pt}
+  \setlength{\belowdisplayskip}{5pt}
+}
+\makeatother

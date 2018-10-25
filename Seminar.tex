@@ -1,0 +1,1058 @@
+% !TEX encoding = UTF-8 Unicode
+
+% Vorläufig
+\newcommand{\vorl}{1}
+
+% Beginn
+\documentclass[a4paper]{paper}
+
+% Festlegungen dieser Datei
+\newcommand{\Autor}{Jörg Schwartz}
+\newcommand{\Titel}{Seminar Operatorensatzrie}
+
+% Eingabe, Encoding und Sprache
+\usepackage[utf8]{inputenc}
+\usepackage[german]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{comment}
+
+% Verschiedene Pakete und Verlinkungen
+\usepackage{a4,fancyhdr,paralist,setspace,makeidx,german,lmodern,multicol,graphicx}
+\usepackage[colorlinks=true,
+urlcolor=black,
+linkcolor=black,
+citecolor=black,
+filecolor=black,
+breaklinks=true,
+pdftitle={\Titel},
+pdfauthor={\Autor},
+]{hyperref}
+\usepackage[columns=2]{mathtex/idxlayout}
+
+\input{mathtex/maths_report}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\footnotesize\textsc{Seminar der Operatorentheorie bei Prof. R. Nagel}}
+\fancyhead[R]{\footnotesize\textsc{Universität Tübingen, WS 16/17}}
+\fancyfoot[L]{\footnotesize Jörg Schwartz}
+\fancyfoot[R]{}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0.5pt}
+\setcounter{section}{1}
+\vspace{-50px}
+
+% Index erzeugen
+\makeindex
+
+% Mathematik-Layout
+
+\input{mathtex/maths_main}
+
+\numberwithin{equation}{satz}
+
+\begin{document}
+
+\begin{center}
+\large\textsc{Von Kolmogorov Matrizen zu Markov Operatoren}
+\end{center}
+\begin{bem}
+\textbf{DNS} ist ein Molekül, welches das \textbf{genetische Material} in allen Organismen mittels einer Folge von \textbf{Nukleotide} kodiert. Als \textbf{Gen} bezeichnet man den Abschnitt einer DNS, welcher die Information zur Konstruktion eines bestimmten \textbf{Proteins} enthält. Die zugehörige physische Position eines Gens  wird \textbf{Locus} genannt und eine Variante eines Gens an einem Locus heißt  \textbf{Allele}.
+
+\par Die verschiedenen Allele eines spezifischen Locus lassen sich durch Nummerierung mit einer abzählbaren Teilmenge $\mathbb I\subseteq \N$ identifizieren. Dabei treten diese zufällig in  Erscheinung: Die \textbf{Wahrscheinlichkeit} $p_i(t)$, mit der ein  Locus zu einem Zeitpunkt $t\geq 0$ die Allele $i\in\I$ trägt, lässt sich mithilfe von   \textbf{Zufallsvariablen} $X_t, t\geq0$ vermöge $p_i(t)=\P(X_t=i)$ modellieren. Dabei gilt $\sum_{i\in\I}p_i(t)=1$, d.h. $(p_i(t))_{i\in\I}$ ist eine \textbf{Verteilung}.
+\begin{comment}
+  \par \textbf{(Gen-)Drift} ist die Veränderung der relativen Häufigkeit der  Allele innerhalb des Genpools einer Population. Gendrift führt zu einer Abnahme der Variabilität des Genpools, da mit jeder Generation nur eine endliche Auswahl aller Allele eines Genpools zufällig an Nachkommen weitergegeben werden kann. Existiert schließlich nur noch eine Variante eines Gens, so spricht man von der \textbf{Fixierung} der Population hinsichtlich dieser Allele.
+  
+  \par  Als \textbf{Mutation} bezeichnen wir die zufällige Abänderung einer Nukleotidfolge an einem Locus, welche zu einer Variante des Gens führt. Falls hierbei eine neue Allele entsteht, die zuvor nicht im Genpool auftrat, so vermag Mutation genetischem Drift entgegenzuwirken, indem die Allele an Nachkommen weitergegeben wird.
+\end{comment}
+
+
+  \par Die verschiedenen Allele eines spezifischen Locus lassen sich durch Nummerierung mit einer abzählbaren Teilmenge $\mathbb I\subseteq \N$ der natürlichen Zahlen identifizieren. Dabei treten diese zufällig in  Erscheinung: Die \textbf{Wahrscheinlichkeit} $p_i(t)$ , mit der ein ausgewählter Locus eines Chromosoms zu einem Zeitpunkt $t\geq 0$ die Allele $i\in\I$ trägt, lässt sich mithilfe einer Familie von  \textbf{diskreten Zufallsvariablen} $$X_t\colon\Omega\to \I,\quad t\geq0$$ auf einem Wahrscheinlichkeitsraum $(\Omega,\mathcal F, \P)$  mit \textbf{Zustandsraum} $\I$ mittels der Folgen $p(t)=(p_i(t))_{i\in\I}$ modellieren, d.h. für jede \textbf{Zustand} $i\in\I$ sowie Zeitpunkt $t\geq 0$ gilt
+  $$p_i(t)=\P(X_t=i)=\P(\{\omega\in \Omega; X_t(\omega)=i\}).$$ Wegen $\sum_{i\in\I}p_i(t)=1$ sowie $0\leq p_i\leq 1$ wird $p(t)$ auch als \textbf{Verteilung} von $X_t$ bezeichnet.  Mit $\sum_{i\in\I}|p_i|=\sum_{i\in\I}p_i=1<\infty$ ist ist eine Verteilung $p$ von $X\colon\Omega\to\I$ eine absolut summierbare Folge. Sei $D$ Menge all dieser.
+
+\end{bem}
+\begin{comment}
+\begin{konstr}[Raum $\ell^1$]
+  Eine Folge $(\xi_n)_{n\in \N}$ heißt \textit{absolut summierbar}, falls $\sum_{n=1}^\infty |\xi_n|:=\lim_{N\to\infty}\sum_{n=1}^N|\xi_n|<\infty$ ist. Die Menge $$\ell^1:=\Big\{(\xi_n)_{n\in \N}; (\xi_n)_{n\in\N}\text{ ist absolut summierbar}\Big\}$$ wird zusammen mit den punktweisen Verknüpfungen der Addition und Skalarmultiplikation zu einem (Vektor-)Raum. Zusammen mit der Abbildung $$\|\cdot\| \colon (\xi_n)_{n\in \N}\mapsto \sum_{n\in \N}|\xi_n|$$ ist  $(\ell^1,\|\cdot\|)$ ein normierter Raum.
+\end{konstr}
+
+\begin{defi}[Normkonvergenz]
+  Eine Folge $(x_n)_{n\in \N}$ in $\ell^1$ heißt \textit{(norm-)konvergent}, falls es $x\in \ell^1$ gibt so, dass $\lim_{n\to\infty}\|x_n-x\|=0$ gilt, d.h. für alle $\epsilon>0$ gibt es $n_0\in\N$ mit $\|x_n-x\|<\epsilon$ für alle $n\geq n_0$.
+\end{defi}
+
+\begin{prop}
+  Sei $x_n=(\xi_{n,i})_{i\in\mathbb I}\in \ell^1$ eine konvergente Folge mit Grenzwert $x=(\xi_k)_{k\in \I}$. Dann konvergiert $(x_n)_{n\in\N}$ punktweise, d.h. für alle $i\in \I$ gilt $$\lim_{n\to\infty}\xi_{n,i}=\xi_i.$$Die Umkehrung gilt im Allgemeinen nicht.
+\end{prop}
+
+\begin{proof}
+Die Hinrichtung ist wegen $|\xi_{n,i}-\xi_i|\leq \|x_n-x\|$ klar. Für die Rückrichtung mit $\I=\N$ betrachte die Folge $e_n=(\delta_{n,i})_{i\in\I}$. Dann gilt $e_n\to 0$ punktweise, jedoch $\lim_{n\to\infty}\|e_n-0\|=\lim_{n\to\infty}\|e_n\|=1\neq 0$.
+\end{proof}
+
+\begin{defi}[Cauchyfolge, Banachraum]
+  Sei $X$ ein normierter Raum.
+  \begin{compactenum}
+      \item Eine Folge $(x_n)_{n\in\N}$ in $X$ heißt \textit{Cauchyfolge}, falls für jedes $\epsilon>0$ ein $n_0\in \N$ gibt so, dass $\|x_m-x_n\|< \epsilon$ für alle $m,n\geq n_0$ gilt.
+      \item $X$ heißt \textit{vollständig}, falls jede Cauchyfolge in $X$ konvergiert.
+      \item Jeder vollständig normierte Raum wird als \textit{Banachraum} bezeichnet.
+  \end{compactenum}
+\end{defi}
+
+\begin{satz}
+  Es ist $\ell^1$ ein Banachraum.
+\end{satz}
+
+\begin{proof}
+  Sei $(x_n)_n$ Cauchyfolge in $\ell^1$. Dann ist die Folge der Koordinaten $(\xi_{n,i})_{n\in \N}$ für alle $i\in I$ ebenfalls Cauchy, hat also einen Grenzwert, etwa $\xi_i$. Setze $x:=(\xi_i)_{i\in \I}$. Zeige, dass es für alle $\epsilon>0$ ein $n_0$ gibt so, dass $\sum_{i\in\I}|\xi_i|\leq\epsilon + \|x_n\|$ gilt, also $x\in\ell^1$ und schließlich $x_n\to x$. 
+\end{proof}
+
+\begin{defi}[Schauderbasis]
+  Sei $X$ ein normierter Raum. Eine abzählbare Familie $\{e_n\}_{n\in\N}$ heißt \textit{Schauderbasis} von $X$, falls für jedes $x\in X$ genau eine Folge $(\alpha_n)_{n\in \N}$ von Skalaren gibt mit $$x=\sum_{n=1}^\infty \alpha_n\cdot e_n.$$
+\end{defi}
+
+\begin{satz}
+  Für $\ell^1$ ist $\{e_n\}_{n\in\N}$ mit $e_n:=(\delta_{n,k})_{k\in\N}$ eine  Schauderbasis.
+\end{satz}
+
+
+\begin{defi}[Riemannsumme]
+  Sei $[a,b]\subseteq \R$ Intervall und $\Delta:=\{a=t_0< \dots <t_N=b\}$ eine Zerlegung hiervon. Für eine banachraumwertige Abbildung $x\colon[a,b]\to X$  definiere die zugehörige \textit{Riemannsumme} durch $$\text{Riem}(x,\Delta):=\sum_{k=1}^N (t_k-t_{k-1})\cdot x(t_k).$$
+\end{defi}
+
+\begin{konstr}[Riemannintegral]
+  Sei $x\colon[a,b]\to X $
+  banachraumwertige Abbildung.
+  \begin{compactenum}
+      \item Nenne $x$ \textit{(riemann-)integrierbar}, falls für jede Folge $(\Delta_n)_{n\in \N}$ von Zerlegungen mit $$|\Delta_n|:=\max_{k=1}^N|t_k-t_{k-1}|\to 0$$ die Folge $\big(\text{Riem}(x,\Delta_n)\big)_{n\in\mathbb N}$ in $X$ konvergiert.
+      \item Falls $x$ integrierbar ist, so definiere das \textit{Riemannintegral} unter Verwendung einer Zerlegungsfolge $(\Delta_n)_{n\in \N}$ mit $|\Delta_n|\to 0$ durch $$\int_a^b x(s)\text ds:=\lim_{n\to\infty}\text{Riem}(x,\Delta_n).$$
+  \end{compactenum}
+\end{konstr}
+
+
+\begin{prop}
+  Sei $x\colon[a,b]\to X$ eine banachraumwertige Abbildung. Ist $x$ stetig, dann ist $x$ integrierbar.
+\end{prop}
+
+\begin{prop}
+  Sei $x\colon[a,b]\to \ell^1, t\mapsto (\xi_i(t))_{i\in\mathbb I}$ stetige Abbildung. Dann gilt:
+  \begin{compactenum}
+      \item Die Abbildung $[a,b]\ni t\mapsto\|x(t)\|$ ist stetig, also integrierbar. 
+      \item Es gilt $\Big\|\int_a^b x(t)\text dt\Big\| \leq\int_a^b\|x(t)\|\text dt$.
+      \item Für alle $i\in\mathbb I$ ist der $i$-te Eintrag der Folge $\int_a^b x(t)\text dt$ gleich $\int_a^b\xi_i(t)\text dt$.
+  \end{compactenum}
+\end{prop}
+\end{comment}
+
+Angenommen, die Verteilung $x(s)=(p_i(s))_{i\in\I}$ einer Allele an einem bestimmten Locus zu einem Zeitpunkt $s$ sei bekannt. Falls die zugrundeliegenden Regeln von Mutation und Drift der Population erklärt sind, so kann - zumindest satzretisch - die Verteilung $y(t)$ zu einem beliebigen Zeitpunkt $t\geq s$ in der Zukunft bestimmt werden. Insbesondere können die \textbf{Übergangswahrscheinlichkeiten} $p_{i,j}(t,s)$ zweier Allele $i,j\in\I$ mittels der \textbf{bedingten Wahrscheinlichkeit} 
+$$p_{i,j}(t,s)=\P(X_t=j|X_s=i)$$ erklärt werden. Diese wiederum bilden eine \textbf{Übergangsmatrix} $P(t,s)=(p_{ij}(t,s))_{i,j\in\I}$, welche \textbf{stochastisch} ist, d.h. jede Zeile $(p_{i,j}(t,s);j\in\I)$ ist eine Verteilung, es gilt also  $$\sum_{j\in \I} p_{i,j}(t,s)=1,\quad\forall i\in \I.$$
+Mit dem \textsc{Satz der totalen Wahrscheinlichkeit} ist dann der $j$-te Eintrag einer Verteilung $y(t)=(p_i(t))_{i\in\I}$ zum Zeitpunkt $t\geq s$ gegeben durch 
+$$\P(X_t=j)=\sum_{i\in\I}p_i(s) p_{ij}(t,s),$$ d.h. die Verteilung zum Zeitpunkt $t$ ist das Produkt der Verteilung $x(s)=(p_i(s))_{i\in\I}$ zum Zeitpunkt $s$ mit der Matrix $P=(p_{ij}(t,s))_{i,j\in\I}$, also $$y(t)= x(s)\cdot P(t,s).$$ Allgemeiner gilt wegen $P$ stochastisch für alle $x=(\xi_i)_{i\in\I}\in\ell^1$, dass $$\|y\|=\sum_{j\in\I}\Bigg|\sum_{i\in\I}\xi_i p_{ij}\Bigg|\leq\sum_{i\in\I}|\xi_i|\sum_{j\in\I}p_{ij}=\sum_{i\in\I}|\xi_i|=\|x\|,$$ 
+also ist $y\in\ell^1$. Die hierdurch definierte Abbildung $P\colon x\mapsto Px:=x\cdot P$  auf $\ell^1$ ist ein  linearer Operator, d.h. es ist $$P(\alpha x+\beta y)=\alpha Px + \beta Py.$$
+
+\begin{comment}
+\begin{defi}[Lineare Operatoren]
+  Seien $X,Y$ normierte Räume. Eine Abbildung $A\colon X\to Y$ heißt \textit{linearer Operator}, falls für alle $x,y\in X$ sowie Skalare $\alpha,\beta$ gilt $$A(\alpha x+\beta y)=\alpha A(x)+\beta A(y).$$ 
+  Gibt es $M\geq0$ mit $\|Ax\|\leq M\|x\|$ für alle $x\in X$, so heißt $A$ \textit{beschränkt}. Sei $\mathcal L(X,Y)$ die Menge aller beschränkten linearen Operatoren. Zusammen mit den punktweisen Verknüpfungen der Addition und Skalarmultiplikation sowie der Abbildung $$\|\cdot\|\colon A\mapsto \sup_{\|x\|=1}\|Ax\|$$ wird $(\mathcal L(X,Y),\|\cdot\|)$ zu einem normierten Raum. Für $Y=X$ schreibe $\mathcal L(X):=\mathcal L(X,X)$. Ist weiter $Y=\R$, so wird $X^*:=\mathcal L(X,\R)$ als normierter Raum aller beschränkten linearen \textit{Funktionale} auf $X$ bezeichnet.
+\end{defi}
+
+\begin{defi}[Markov Operator]
+  Sei $(p_{ij})_{i,j\in\I}$ stochastische Matrix von Übergangswahrscheinlichkeiten einer zeitlich homogenen Markovkette $(X_t)_{t\in\I}$ mit Zustandsraum $\I$. Dann wird der zugehörige lineare Operator $P$ auf $\ell^1$ als \textit{Markov Operator} bezeichnet. 
+\end{defi}
+\end{comment}
+
+\begin{comment}
+\begin{satz}
+  Sei $A\colon X\to Y$ ein linearer Operator. Dann sind äquivalent:
+  \begin{compactenum}
+      \item $A$ ist stetig.
+      \item $A$ ist stetig für ein $x\in X$.
+      \item $\sup_{\|x\|=1}\|Ax\|<\infty$.
+      \item $A$ ist beschränkt.
+  \end{compactenum}
+\end{satz}
+\end{comment}
+
+
+\begin{comment}
+\begin{prop}
+  Seien $X,Y,Z$ normierte Räume und  $A\in\mathcal L(X,Y)$, $B\in\mathcal L(Y,Z)$ zwei beschränkte lineare Operatoren. Dann ist die \textit{Komposition} $BA(x):=B(Ax)$ ebenfalls  ein beschränkter linearer Operator mit $\|BA\|\leq \|B\|\cdot\|A\|$.
+\end{prop}
+
+\begin{prop}
+  Seien $X,Y$ Banachräume, $x\colon[a,b]\to X$ eine stetige Abbildung und $A\in\mathcal L (X,Y)$ beschränkter linearer Operator. Dann gilt $$A\int_a^b x(t)\text dt=\int_a^b Ax(t)\text dt.$$
+\end{prop}
+
+
+\begin{defi}[Normkonvergenz]
+  Eine Folge $(A_n)_{n\in \N}$ in $\mathcal L(X,Y)$ heißt \textit{(norm-)konvergent}, falls es $A\in\mathcal L(X,Y)$ gibt mit $\lim_{n\to\infty}\|A_n-A\|=0$.
+\end{defi}
+
+\begin{prop}
+  Seien $(A_n)_{n\in \N}$ und $(B_n)_{n\in \N}$ zwei konvergente Folgen  in $\mathcal L(X,Y)$. Dann konvergiert $(A_n\cdot B_n)_{n\in\mathbb N}$ mit $\lim_{n\to\infty}A_n B_n = A\cdot B$.
+\end{prop}
+
+
+\begin{defi}[Starke Konvergenz]
+  Eine Folge $(A_n)_{n\in\N}$ in $\mathcal L(X,Y)$ heißt \textit{stark konvergent}, falls es $A\in\mathcal L(X,Y)$ gibt mit $\lim_{n\to\infty} A_nx = Ax$ für alle $x\in X$.
+\end{defi}
+
+\begin{prop}
+  Sei $(A_n)_{n\in \N}$ eine Folge in $\mathcal L(X,Y)$. Ist $(A_n)_{n\in\mathbb N}$ konvergent, so gilt bereits starke Konvergenz. Die Umkehrung gilt im Allgemeinen nicht. 
+\end{prop}
+
+
+\begin{prop}
+  Sind $X,Y$ Banachräume, so ist $\mathcal L(X,Y)$ ebenfalls ein Banachraum.
+\end{prop}
+
+
+\begin{folg}
+  Sei $X$ Banachraum sowie $A\in\mathcal L(X)$. Gilt $\|A-I\|< 1$, dann ist $A$ invertierbar. 
+\end{folg}
+\end{comment}
+
+
+Der \textbf{stochastische Prozess} $(X_t)_{t\geq0}$, d.h. eine Familie von Zufallsvariablen $X_t\colon \Omega\to \I$, welcher die Verteilungen der Allele in Abhängigkeit der Zeit modelliert, ist  das Beispiel einer \textbf{Markovkette}, die zudem \textbf{zeitlich homogen} ist.  Anschaulich besitzt ein Prozess $(X_t)_{t\geq0}$ die  \textbf{Markov Eigenschaft}, falls Verteilungen von Werten $X_t$ in der Zukunft lediglich durch Verteilungen der Gegenwart $X_s$, nicht aber von der Vergangenheit beeinflusst werden. Gilt zudem für die Übergangswahrscheinlichkeiten $p_{ij}(t,s)=\P(X_t=j|X_s=i)$, dass $$p_{ij}(t+h,s+h)=p_{ij}(t,s)$$ für alle $h>0$, so heißt der Prozess $(X_t)_{t\geq0}$ zeitlich-homogener Markovkette.Damit genügt es, lediglich die Überganswahrscheinlichkeiten $p_{ij}(t,0)=:p_{ij}(t)$ zu betrachten. Der zur Übergangsmatrix gehörige Markov Operator $P(t)$ wird damit zu einer stark stetigen Halbgruppe von Markov Operatoren.
+
+
+\begin{comment}
+\begin{defi}[Markovkette]
+  Ein  Prozess $(X_t)_{t\geq0}$ heißt   \textit{Markovkette} mit \textit{Anfangsverteilung $\lambda=(\lambda_i)_{i\in\I}$} und \textit{Übergangsmatrix $P=(p_{i,j})_{i,j\in\I}$}, in Zeichen \textit{Markov}($\lambda$,$P$), falls gilt:
+  \begin{compactenum}
+      \item $\P(X_0=i_0)=\lambda_{i_0}$ für alle $i_0\in\I$, d.h. $X_0$ hat die Verteilung $\lambda$.
+      \item $\P(X_{n+1}=i_{n+1}|X_0=i_0,\dots,X_n=i_n)=p_{i_n i_{n+1}}$, d.h. für $n\geq0$ und bedingt auf $X_n=i$ hat $X_{n+1}$ die Verteilung $(p_{i,j})_{j\in\I}$ und ist unabhängig von $X_0,\dots,X_{n-1}$.
+  \end{compactenum}
+\end{defi}
+\end{comment}
+
+\begin{comment}
+\begin{defi}[Halbgruppe von Operatoren]
+  Sei $X$ Banachraum. Eine Abbildung $T\colon \R_+\to \mathcal L(X)$ heißt \textit{stark stetige Halbgruppe von Operatoren}, falls gilt:
+  \begin{compactenum}
+      \item $T(0)=I$.
+      \item Für alle $s,t\geq0$ ist $T(t+s)=T(t)\cdot T(s)$.
+      \item Für alle $x\in X$ ist $\lim_{t\downarrow 0}T(t)x=x$.
+  \end{compactenum}
+\end{defi}
+\end{comment}
+
+
+\begin{defi}
+Sei $X$ Banachverband. Eine lineare Abbildung $P\colon X\to X$ heißt   \textit{Markov Operator}, falls $P(D)\subseteq D$ gilt mit $D=\{x\in X;x\geq 0, \|x\|=1\}$.
+\end{defi}
+
+\begin{defi}[sub-Markov Operator]
+Sei $X$ Banachverband. Eine lineare Abbildung $P\colon X\to X$ heißt   \textit{sub-Markov Operator}, falls $P(D)\subseteq D$ gilt mit $D=\{x\in X; x\geq0, \|x\|\leq1\}$. 
+\end{defi}
+
+\begin{prop}
+  Sei $P(t)=(p_{ij}(t))_{i,j\in\I}$ lineare Abbildung von Übergangswahrscheinlichkeiten einer zeitlich-homogenen Markovkette $(X_t)_{t\geq0}$. Dann ist $\|P\|=1$, insb. ist $P$ Markov Operator. 
+\end{prop}
+
+\begin{proof}
+Wegen $\|y\|\leq \|x\|$ für alle $x\in\ell^1$ mit $y=Px$ gilt $\|P\|\leq 1$. Für die zweite Ungleichung betrachte $x=e_1$. Dann gilt $\|x\|=1$ und $Px$ entspricht der ersten Zeile der Matrix $P$. Da $P$ stochastisch ist, ist $\|Px\|=1$, also $\|P\|\geq 1$. 
+\end{proof}
+
+
+\begin{prop}
+   Sei $(X_t)_{t\geq0}$ Sei $(X_t)_{t\geq0}$ die zeitlich-homogene Markovkette  mit abzählbarem Zustandsraum $\I$ und Übergangswahrscheinlichkeiten $$p_{i,j}(t,s)=\P(X_t=j| X_s=i)\quad \forall i,j\in \I$$ und für $t\geq0$ sei $P(t)$ der zugehörige beschränkte lineare Operator auf $\ell^1$. Gilt für alle Zustände $i\in\I$, dass $$\lim_{t\downarrow 0}p_{i,i}(t)=p_{i,i}(t,0)=1,$$so ist $(P(t))_{t\geq0}$ eine stark stetige Halbgruppe von Markov Operatoren.
+\end{prop}
+
+\begin{proof}
+  Wegen $p_{ii}(0)=1$ und $p_{ij}(0)=0$ für $j\neq i$ ist $P(0)=I$.  Seien weiter $s,t\geq0$ und Zustände $i,j\in\I$ gegeben. Ist $X_0=i$, so ist die Wahrscheinlichkeit für $X_{s+t}=j$ gegebn durch $p_{ij}(s+t)$. Dann gilt wegen $(X_t)_{t\geq0}$ zeitlich-homogen und Markov'sch, dass
+  \begin{align}
+  \P(X_{s+t}=j|X_0=i)
+  &=\sum_{k\in\I}\P(X_{s+t}=j|X_0=i, X_s=k)\P(X_s=k|X_0=i)\\
+  &=\sum_{k\in\I}\P(X_{s+t}=j|X_s=k)p_{ik}(s)\\
+  &=\sum_{k\in\I}p_{ik}(s)p_{kj}(t),
+  \end{align}
+  d.h. es ist $p_{ij}(s+t)$ gerade das Produkt der $i$-ten Zeile der Matrix $P(s)$ und der $j$-te Spalte der Matrix $P(t)$, i.e. $P(s+t)=P(s)P(t)$ für $s,t\geq0$. Zur starken Stetigkeit. Sei $x=(\xi_i)_{i\in\I}\in\ell^1$. Dann gilt
+  \begin{align}
+    \|P(t)x-x\|
+    &=\sum_{j\in\I}|\sum_{i\in\I}\xi_i p_{ij}(t)-\xi_j|\\
+    &\leq \sum_{j\in\I}[1-p_{jj}(t)]|\xi_j|+\sum_{j\in\I}\sum_{i\in\I,i\neq j}|\xi_i|p_{ij}(t)\\
+    &=\sum_{j\in\I}[1-p_{jj}(t)]|\xi_j|+\sum_{i\in\I}|\xi_i|\sum_{j\in\I,j\neq i}p_{ij}(t)\\
+    &=2\sum_{j\in\I}[1-p_{jj}(t)]|\xi_j|,
+  \end{align}
+  wobei die letzte Identität wegen $\sum_{j\in\I,j\neq i}p_{ij}(t)=1-p_{ii}(t)$ folgt. Wegen $\lim_{t\downarrow 0}p_{ii}(t)=1$ ist dann $\lim_{t\downarrow 0}\sum_{j\in\I}[1-p_{jj}(t)]|\xi_i|=0$, also $\lim_{t\downarrow 0}P(t)x=x$.
+\end{proof}
+\begin{comment}
+\begin{folg}
+  Sei $(P(t))_{t\geq0}$ stark stetige Operatorhalbgruppe einer zeitlich-homogene Markovkette $(X_t)_{t\geq0}$ mit Zustandsraum $\I\subseteq \N$. Dann ist die Abbildung$$[0,\infty)\ni t\mapsto p_{i,j}(t)=\P_j(X_t=i)=\P(X_t=i|X_0=j)$$ für alle $i,j\in\mathbb I$ stetig.
+\end{folg}
+
+\begin{proof}
+Wegen der starken Stetigkeit ist $\lim_{t\to t_0}P(t)e_i=P(t_0)e_i=(p_{i,j}(t_0);j\in\I)$ und damit folgt die punktweise Konvergenz.
+\end{proof}
+\end{comment}
+
+\begin{comment}
+\begin{mem}
+   Sei $(P(t))_{t\geq0}$ stark stetige Halbgruppe von Markov Operatoren einer zeitlich homogenen Markovkette $(X_t)
+   _{t\geq0}$. Ist der Zustandsraum $\I$ endlich, dann gilt:
+   \begin{compactenum}
+   \item Es existiert $Q=\lim_{h\downarrow 0}\frac{1}{h}\big(P(h)-I\big)$.
+   \item $t\mapsto P(t)$ ist differenzierbar und erfüllt für alle $t\geq0$
+    $$\frac{\text d P(t)}{\text dt}=P(t)\cdot Q=Q\cdot P(t)\quad\text{ mit $P(0)=I$}.$$
+    \end{compactenum}
+\end{mem}
+
+\begin{proof}
+Da $\I$ endlich ist, ist $\|P\|=\sup_{i\in\I}\sum_{j\in\I}|p_{ij}|$ beschränkt und  die starken Stetigkeit von $t\mapsto P(t)$ impliziert bereits Normstetigkeit, insbesondere ist $P(t)$ integrierbar. Setze $$R(t):=\frac{1}{t}\int_0^t P(s)\text ds, \quad t>0,$$ und es sei $t>0$ so klein, dass für alle $s\in[0,t]$ gilt $$\|P(s)-I\|< 1.$$Dann gilt auch $\|R(t)-I\|< 1$ und es existiert $[R(t)]^{-1}$. Betrachte weiter für $h>0$ 
+\begin{align}
+\frac{1}{h}[P(h)-I]R(t)
+&=\frac{1}{ht}\Bigg[\int_0^t P(h+s)\text ds-\int_0^t P(s)\text ds\Bigg]\\
+&=\frac{1}{ht}\Bigg[\int_h^{t+h}P(s)\text ds-\int_0^t P(s)\text ds\Bigg]\\
+&=\frac{1}{t}\Bigg[\frac{1}{h}\int_t^{t+h}P(s)\text ds-\frac{1}{h}\int_0^h P(s)\text ds\Bigg].
+\end{align}
+Damit konvergiert dann die rechte Seite mit $h\downarrow 0$ gegen $\frac{1}{t}(P(t)-I)$, d.h. für $\frac{1}{h}[P(h)-I](R(t))$ existiert ebenfalls der Grenzwert. Durch Multiplikation von $[R(t)]^{-1}$ von rechts setze dann $$\lim_{h\downarrow 0}\frac{1}{h}[P(h)-I]=\frac{\text d P(t)}{\text d t}\Bigg|_{t=0}=:Q.$$
+Mit der Halbgruppeneigenschaft von $(P(t))_{t\geq0}$  folgt dann schließlich 
+\begin{align}
+\lim_{h\downarrow 0}\frac{1}{h}[P(t+h)-P(t)]
+&=P(t)\lim_{h\downarrow 0}\frac{1}{h}[P(h)-I]=P(t)Q,\\
+\lim_{h\downarrow 0}\frac{1}{-h}P[(t-h)-P(t)]
+&=\lim_{h\downarrow 0}P(t-h)\lim_{h\downarrow 0}\frac{1}{h}[P(h)-I]
+&=P(t)Q,\end{align} wobei $QP(t)=P(t)Q$ gilt und damit die Ableitung von $t\mapsto P(t)$ existiert und $P(t)Q$ entspricht.
+\end{proof}
+\end{comment}
+\begin{defi}[Kolmogorov Matrix]
+  Für beliebigen Zustandsraum $\I$ definiere die \textit{Kolmogorov Matrix} $Q=(q_{ij})_{i,j\in\I}$ durch
+  \begin{compactenum}
+      \item $0\leq -q_{i,i}< \infty$ für alle $i\in\I$.
+      \item $q_{i,j}\geq0$ für alle $i\neq j$.
+      \item $\sum_{j\in\I}q_{i,j}=0$ für alle $i\in \I$.
+  \end{compactenum}
+\end{defi}
+
+\begin{prop}
+Sei $\I$ endlich. Dann ist die Matrix $Q=\lim_{h\downarrow 0}\frac{1}{h}\big(P(h)-I\big)$ einer zeitlich-homogenen Markovkette mit Zustandsraum $\I$  eine Kolmogorov Matrix.
+\end{prop}
+
+\begin{proof}
+Für $i\neq j$ ist $q_{ij}=\lim_{t\downarrow 0}\frac{1}{t}p_{ij}(t)\geq0$, d.h. $Q$ ist positiv abseits der Diagonalen. Da $\I$ endlich ist, können wir  $\sum_{j\in \I}p_{ij}(t)=1$ differenzieren und erhalten $\sum_{j\in I}p_{ij}'(t)=0$ f+r alle $i\in \I$. Mit $t=0$ ist dann jede Zeilensumme gleich $0$. 
+\end{proof}
+
+
+\begin{comment}
+\begin{satz}
+  Sei $(X_t)_{t\geq0}$ ein rechtsseitig stetiger Prozess auf $\I$. Dann ist die Wahrscheinlichkeit jedes Zustandes gegeben durch die endlichdimensionalen Verteilungen, also $\P(X_{t_0}=i_0,\dots,X_{t_n}=i_n)$ 
+\end{satz}
+\end{comment}
+
+
+\begin{comment}
+\begin{bem}
+Ist der Zustandsraum $\I$ nicht endlich, so existiert im Allgemeinen nicht der Grenzwert $\lim_{h\downarrow 0}\frac{1}{h}(P(h)-I)$. Etwa existieren die punktweisen Konvergenzen  $$q_i:=\lim_{t\downarrow0}\frac{1}{t}(1-p_{ii}(t))\text{ und } q_{ij}:=\lim_{t\downarrow 0}\frac{p_{ij}(t)}{t}\quad i\neq j,$$ jedoch ist es möglich, dass die Einträge $q_i$ unendlich sind. Selbst wenn wir $q_i<\infty$ annehmen, können wir die Konvergenz in der Operatornorm nicht erzwingen.  Jedoch gibt es eine dichte Teilmenge $D(Q)\subseteq\ell^1$ derart, dass wir für alle $x\in D(Q)$ einen linearen Operator mit Definitionsbereich $(Q,D(Q))$ erhalten durch  $$\lim_{h\downarrow}\frac{1}{h}(P(h)x-x)=:Qx.$$ 
+Dabei kann die Kolmogorov Matrix mithilfe von $(Q,D(Q))$ rekonstruiert werden.
+\end{bem}
+\end{comment}
+\begin{comment}
+\begin{satz}
+  Sei $(X_t)_{t\geq0}$ eine zeitlich-homogene Markovkette mit nicht endlichem Zustandsraum $\mathbb \N$ und es sei $(P(t))_{t\geq0}$ die zugehörige stark stetige Halbgruppe von Operatoren. Dann gibt es stets eine dichte Teilmenge $D(Q)\subseteq\ell^1$ so, dass der Grenzwert$$\lim_{h\downarrow 0}\frac{1}{h}\big(P(h)x-x\big)$$  für alle $x\in D(Q)$ existiert. 
+\end{satz}
+
+\begin{proof}
+  Sei $D(Q)$ die Menge aller $x\in\ell^1$ so, dass der Grenzwert $\lim_{h\downarrow 0}\frac{1}{h}\big(P(h)x-x\big)$ existiert. Dann ist $D(Q)\leq \ell^1$ linearer Unterraum. Sei $x\in\ell^1$. Dann gilt mit der starken Stetigkeit von $t\mapsto P(t)x$, dass $$\lim_{t\downarrow 0}\frac{1}{t}\int_0^t P(s)x\text ds=x.$$ Weiter gilt $\int_0^t P(s)x\text ds\in D(Q)$, denn mit
+  \begin{align}
+    \frac{1}{h}[P(h)-I]\int_0^tP(s)x\text ds
+    &=\frac{1}{h}\Bigg[\int_0^t P(h+s)x\text ds-\int_0^tP(s)x\text ds\Bigg]\\
+    &=\frac{1}{h}\Bigg[\int_0^{t+h}P(s)x\text ds-\int_0^t P(s)x\text ds\Bigg]\\
+    &=\frac{1}{h}\int_t^{t+h}P(s)x\text ds-\frac{1}{h}\int_0^h P(s)x\text ds
+  \end{align}
+  konvergiert der zweite Term auf der rechten Seite gegen $x$ und der erste Term gegen $P(t)x$ mit $h\downarrow 0$. Also ist $$Q\int_0^t P(s)x\text ds=P(t)x-x.$$
+\end{proof}
+
+\begin{defi}[Generator]
+  Der lineare Operator $$D(Q)\ni x\mapsto Qx:=\lim_{h\downarrow 0}\frac{1}{h}\big(P(h)x-x\big)$$ einer stark stetigen Operatorhalbgruppe $(P(t))_{t\geq0}$ zu einer zeitlich-homogene Markovkette $(X_t)_{t\geq0}$ heißt \textit{Generator} und wird mit $(Q,D(Q))$ bezeichnet.
+\end{defi}
+\end{comment}
+\begin{comment}
+\begin{mem}
+  Sei $(Q,D(Q))$ Generator einer zeitlich-homogenen Markovkette. Dann gilt:
+  \begin{compactenum}
+    \item Für $x\in D(Q)$ ist die Abbildung $[0\infty)\ni t\mapsto P(t)x$ differenzierbar mit $P(t)Qx$.
+    \item Für $x\in D(Q)$ ist $P(t)x\in D(Q)$ für $t>0$ 
+    \item Für alle $x\in D(Q)$ gilt $\frac{\text d P(t)x}{\text dt}=P(t)Qx=QP(t)x$.
+  \end{compactenum}
+\end{mem}
+\end{comment}
+
+\begin{comment}
+\begin{defi}[Abgeschlossener Operator]
+ Ein linearer Operator $(A,D(A))$ mit Definitionsbereich heißt \textit{abgeschlossen}, falls für jede Folge $(x_n)_{n\geq0}$ mit $\lim_{n\to\infty} x_n=x$ und $\lim_{n\to\infty} A x_n=y$ gilt, dass $x\in D(A)$ und $Ax=y$ ist. 
+\end{defi}
+
+
+\begin{prop}
+  Der Generator  $(Q, D(Q))$  einer zeitlich-homogenen Markovkette $(X_t)_{t\geq0}$ ist stets abgeschlossen.
+\end{prop}
+
+\begin{proof}
+  Sei $(x_n)_{n\geq1}$ eine Folge in $D(Q)$ und es existiere $\lim_{n\to\infty}x_n=:x$ und $ \lim_{n\to\infty}Q x_n=:y$. Die Abbildung $t\mapsto QP(t)x_n$ ist stetig, also integrierbar, ebenso wie $t\mapsto P(t)Qx_n$. Wir erhalten $$P(t)x_n-x_n=\int_0^t P(s)Qx_n\text ds.$$ Weiter gilt $\|P(s)y-P(s)Qx_n\|\leq\|y-Qx_n\|$, d.h. für $n\to\infty$ konvergiert der Integrand gleichmäßig gegen $P(s)y$ für $s\in[0, t]$. Damit konvergiert auch die rechte Seite  gegen $\int_0^t P(s)y \text ds$. Insgesamt erhalten wir $$P(t)x-x=\int_0^t P(s)y\text ds.$$ Dividiere beide Seiten mit $\frac{1}{t}$ und lasse $t\downarrow 0$, so konvergiert $\frac{1}{t}(P(t)x-x)$ gegen $y$, d.h. $x\in D(Q)$ und $Qx=y$.
+\end{proof}
+\end{comment}
+
+\begin{comment}
+\begin{bem} Ist $Q$ Kolmogorov Matrix einer zeitlich-homogene Markovkette $(X_t)_{t\geq0}$ mit endlichem Zustandsraum, so ist $Q$ beschränkt  und die zugehörige stark stetige Halbgruppe $(P(t))_{t\geq0}$ ist  gegeben durch $$P(t)=\textnormal e^{tQ}:=\sum_{n=0}^\infty\frac{t^n Q^n}{n!}\quad\forall t\geq0.$$Ist $Q$ hingegen nicht beschränkt, so kann die Operatorhalbgruppe $(P(t))_{t\geq0}$ einer Markovkette $(X_t)_{t\geq 0}$ im  Allgemeinen  nicht rekonstruiert werden, da $Q$ den Prozess womöglich nicht vollständig beschreibt. So ist es etwa möglich, dass $Q$ den Prozess $(X_t)_{t\geq0}$ nur bis zu einem endlichen Zeitpunkt $\zeta$ beschreibt, nicht aber darüber hinaus.
+\end{bem}
+\end{comment}
+
+
+\begin{comment}
+ 
+\begin{prop}
+  Sei $(X_t)_{t\geq0}$ Markov$(\lambda, Q)$. Dann explodiert $(X_t)_{t\geq0}$ nicht, falls mindestens eine der Bedingungen gilt:
+  \begin{compactenum}
+      \item $\I$ ist endlich.
+      \item Es gilt $\sup_{i\in\I}q_i< \infty$.
+  \end{compactenum}
+\end{prop}
+
+\begin{proof}
+  Setze $T_n=q(Y_{n-1})S_n$. Dann sind $T_1,T_2,\dots$ unabhängig [...]
+  Gilt (i) oder (ii), dann setze $q=\sup_i q_i<\infty$ und es hat $$q\zeta\geq\sum_{n=1}^\infty T_n=\infty$$ Wahrscheinlichkeit gleich $1$.
+\end{proof}
+\end{comment} 
+
+\begin{comment}
+\begin{konstr}[Sprungmatrix]
+  Sei $Q$ Kolmogorov Matrix auf $\I$. Dann erhalten wir eine stochastische Matrix $\Pi=(\pi_{i,j})_{i,j\in\I}$, die sg. \textit{Sprungmatrix}, vermöge $$\pi_{ij}=\begin{cases} q_{ij}/q_i \quad &\text{falls $j\neq i$ und $q_i\neq 0$}\\
+  0\quad &\text{falls $j\neq i$ und $q_i=0$}\end{cases}\quad
+  \pi_{ii}=\begin{cases} 0\quad\text{falls $q_i\neq 0$}\\
+  q\quad\text{falls $q_i=0$}\end{cases}$$
+\end{konstr}
+\end{comment}
+
+\begin{comment}
+
+\section{Tensorprodukt von $\ell^1$}
+
+\begin{konstr}
+  Eine Matrix $m=(\xi_{i,j})_{i,j\in \I}$ heißt \textit{absolut summierbar}, falls $\sum_{i,j\in\I}|\xi_{i,j}|<\infty$ gilt. Die Menge $$\mathcal M:=\Big\{(\xi_{i,j})_{i,j\in \I}; (\xi_{i,j})_{i,j\in \I}\text{ ist absolut summierbar}\Big\}$$wird zusammen mit den punktweisen Verknüpfungen der Addition und Skalarmultiplikation zu einem Vektorraum. Zusammen mit der Abbildung $$\|\cdot\|\colon (\xi_{i,j})_{i,j\in \I}\mapsto \sum_{i,j\in\I}|\xi_{i,j}|$$ ist $(\mathcal M,\|\cdot\|)$ ein  normierter Raum, der vollständig ist.
+\end{konstr}
+
+\begin{proof}
+   
+\end{proof}
+
+\begin{defi}
+  Seien $X_1$ und $X_2$  Zufallsvariablen mit Zustandsraum $\mathbb I\subseteq \N$. Dann ist die zugehörige \textit{gemeinsame Verteilung} eine Matrix $m=(p_{i,j})_{i,j\in\I}$ mit Einträgen $$p_{i,j}=\text{Pr}(X_1=i,X_2=j).$$
+\end{defi}
+
+\begin{defi}
+  Tensorprodukt [...] 
+\end{defi}
+
+\begin{satz}
+   Der Raum $\mathcal M$ ist das projektive Tensorprodukt von  $\ell^1$, in Zeichen $\mathcal M=\ell^1\otimes \ell^1$, d.h. für jedes $m\in\mathcal M$ und $\epsilon >0$ gibt es Elemente $x_1,\dots,x_N, y_1,\dots,y_N\in\mathcal M$ und Skalare $\alpha_1,\dots,\alpha_N$ mit $N\in\N$ derart, dass gilt: $$\Bigg\| m-\sum_{n=1}^N \alpha_n x_n\otimes y_n\Bigg\|< \epsilon.$$
+\end{satz}
+
+\begin{proof}
+   
+\end{proof}
+
+\begin{satz}
+  Für $\mathcal M$ ist $\{ e_i\otimes e_j\}_{i,j\in \I}$ eine Schauderbasis.
+\end{satz}
+
+\begin{proof}
+   
+\end{proof}
+
+
+\begin{konstr}
+  Eine Matrix $\mathcal M\ni m=\big(\xi_{i,j}\big)_{i,j\in\I}$ heißt \textit{symmetrisch}, falls $\xi_{i,j}=\xi_{j,i}$ für alle $i,j\in\I$ gilt. Sei $\mathcal M_s$ Menge aller symmetrischen absolut summierbaren Matrizen. Dann ist $\mathcal M_s$ ein  normierter Raum, der vollständig ist.
+\end{konstr}
+
+\begin{proof}
+   
+\end{proof}
+
+\begin{defi}
+  Für $x,y\in\ell^1$ ist das \textit{symmetrisierte} Tensor Produkt  gegeben durch $$x\boxtimes y:=x\otimes y + y\otimes x,$$ falls $x\neq y$ und $x\boxtimes x:=x\otimes x$ sonst.
+\end{defi}
+
+\begin{prop}
+  Für $\mathcal M_s$ ist $\{e_i\boxtimes e_j\}_{i,j\in\I}$ eine Schauderbasis.
+\end{prop}
+
+\begin{proof}
+   
+\end{proof}
+
+\end{comment}
+
+
+\begin{comment}
+\begin{prop}
+  Für eine Kolmogorov Matrix $Q$ sind äquivalent:
+  \begin{compactenum}
+      \item $Q$ ist nicht explosiv.
+      \item Für jede reelle Zahl $\gamma>0$ gibt es einen nicht beschränkte Folge $0\neq(\eta_i)_{i\in\mathbb I}$ so, dass gilt $$Q\cdot(\eta_i)_{i\in\mathbb I}=\gamma (\eta_i)_{i\in\mathbb I}.$$
+  \end{compactenum}
+\end{prop}
+\end{comment}
+
+\begin{comment}
+\begin{mem}
+  Sei $(P(t))_{t\geq0}$ eine stark stetige Halbgruppe von Markov Operatoren mit Generator $(Q,D(Q))$. Dann ist  $$P_\lambda (t)=\textnormal{e}^{-\lambda t}P(t),\quad \lambda >0$$  eine  stark stetige Halbgruppe von sub-Markov Operatoren. Der zugehörige  Generator $(Q_\lambda, D(Q_\lambda))$ ist gegeben durch $$D(Q_\lambda)=D(Q),\quad Q_\lambda x=Qx -\lambda x.$$
+\end{mem}
+
+\begin{proof}
+Die Eigenschaften von $P_\lambda$, Halbgruppe zu sein,  sind klar, ebenso die starke Stetigkeit (da $P_\lambda$ als Produkt stark stetiger Abbildung wieder stark stetig ist). Wegen $\|e^{-\lambda t}\|\leq 1$ mit $\lambda >0$ ist  $(P_\lambda(t))_{t\geq0}$ somit stark stetige Halbgruppe von sub-Markov Operatoren. Sei $Q_\lambda$ zugehöriger Generator. Dann gilt für alle $x\in D(Q_\lambda)$
+$$\frac{e^{-\lambda t}P(t)x-x}{t}=e^{-\lambda t}\cdot\frac{P(t)x-x}{t}+\frac{e^{-\lambda t}-1}{t}\cdot x\to Qx-\lambda x.$$
+\end{proof}
+
+\end{comment}
+\begin{comment}
+\begin{mem}
+Sei $(P(t))_{t\geq0}$ stark stetige Halbgruppe von Markov Operatoren. Dann  existiert für alle $\lambda>0$ das uneigentliche Riemannintegral $$R_\lambda x:=\int_0^\infty \textnormal e^{-\lambda t}P(t)x\textnormal dt:=\lim_{N\to\infty}\int_0^N \textnormal e^{-\lambda t}P(t)x\textnormal dt\quad x\in\ell^1$$.
+\end{mem}
+
+\begin{proof}
+Für $t_2>t_1$  gilt 
+\begin{align}
+\|\int_0^{t_2}e^{-\lambda s}P(s)x\text ds-\int_0^{t_1} e^{-\lambda t}P(s)x\text ds\|
+&=\|\int_{t_1}^{t_2} e^{-\lambda s}P(s)x\text dt\|\\
+&\leq \int_{t_1}^{t_2}e^{-\lambda s}\|P(s)x\|\text ds\\
+&\leq \int_{t_1}^{t_2}e^{-\lambda s}\text ds\|x\|\\
+&=\|x\|\frac{e^{-\lambda t_1}-e^{-\lambda t_2}}{\lambda}.
+\end{align}
+Also existiert das uneigentliche Riemannintegral und wir erhalten $\|R_\lambda\|\leq\frac{1}{\lambda}$.
+\end{proof}
+\end{comment}
+\begin{comment}
+\begin{prop}
+  Sei $(P(t))_{t\geq0}$ stark stetige Halbgruppe von Markov Operatoren mit Generator $(Q, D(Q))$. Dann ist $\lambda -Q$ für alle $\lambda >0$ invertierbar mit $$(\lambda -Q)^{-1}x=R_\lambda x=\int_0^\infty e^{-\lambda t}P(t)x\text dt,\quad x\in \ell^1,\lambda >0.$$
+\end{prop}
+
+\begin{proof}
+Es gilt $$e^{-\lambda t}P(t)x-x+\lambda\int_0^t e^{-\lambda t}P(s)x\text dt=Q\int_0^t e^{-\lambda s}P(s)x\text ds,$$ d.h. $\int_0^t e^{-\lambda s}P(s)x\text ds$ ist Element von $D(Q)$. Mit $t\to \infty$ konvergiert dieses zu $R_\lambda x$ und die linke Seite zu $\lambda R_\lambda x-x$, da $\|e^{-\lambda t}P(t)x\|\leq e^{-\lambda t}\|x\|\to 0$. Da $Q$ abgeschlossen ist, ist $R_\lambda x\in D(Q)$ und es gilt $$QR_\lambda x=\lambda R_\lambda x-x,$$ d.h. $(\lambda - Q)R_\lambda x=x$. Umgekehrt gilt  für $x\in D(Q)$ die Identität $$e^{-\lambda t}P(t)x-x+\lambda \int_0^t e^{-\lambda t}P(s)x\text dt=\int_0^t e^{-\lambda s}P(s)Qx\text ds.$$ Mit $t\to\infty$ erhalten wir dann $\lambda R_\lambda x-x=R_\lambda Qx$, d.h. $R_\lambda (\lambda -Q)x=x$. 
+\end{proof}
+\end{comment}
+
+\begin{satz}[Hille-Yosida, Spezialfall]
+  Sei $(Q, D(Q))$ ein abgeschlossener, dicht definierter linearer Operator mit Definitionsbereich. Dann ist $(Q,D(Q))$   Generator einer stark stetigen Halbgruppe $(P(t))_{t\geq0}$ von (sub-)Markov Operatoren genau dann, wenn gilt:
+  \begin{compactenum}
+      \item Für alle $x\in \ell^1$ und $\lambda>0$ gibt es genau eine Lösung $y\in D(Q)$ mit $\lambda y- Qy = x$. 
+      \item Für alle $\lambda>0$ ist  $\lambda R_\lambda$  (sub-)Markov Operator. 
+  \end{compactenum}
+\end{satz}
+
+
+\begin{lem}
+  Sei $P$ ein Markov Operator und $\lambda > 0$. Dann  ist $$P_\lambda(t):=\textnormal  e^{t\lambda(P-I)}\quad t\geq0$$ eine stark stetige Halbgruppe von Markov Operatoren.
+\end{lem}
+
+\begin{proof}[Beweis des Lemmas]
+  Es ist $\text e^{t\lambda (P-I)}=e^{-\lambda t}\sum_{n=0}\infty\frac{\lambda^n t^n P^n}{n!}$. Da alle (Matrizen von Operatoren) $P^n$ nicht-negative Einträge haben, gilt dasselbe für die Matrix des Operators $\text e^{\lambda t(P-I)}$.  Sei $F_i\colon \mathcal L(\ell^1)\to \R$ das Funktional, welches  einem Operator auf $\ell^1$ die Summe der Einträge in der $i$-ten Zeile zuordnet. Es ist klar, dass $F_i$ linear und beschränkt ist und auf der Menge aller sub-Markov Operatoren Norm kleiner gleich $1$ ist.
+\end{proof}
+
+\begin{proof}[Beweis des Satzes] Die Hinrichtung der Äquivalenz ist klar. \\Es gelte also (i) sowie (ii) und es sei 
+$$Q_\lambda:=\lambda^2 R_\lambda -\lambda=\lambda(\lambda R_\lambda -I).$$
+Mit dem Lemma ist dann $\text e^{t Q_\lambda}$ eine Halbgruppe von (sub-)Markov Operatoren für alle $\lambda>0$. Wir wollen zeigen, dass für $x\in\ell^1$ der Grenzwert $$P(t)x=\lim_{\lambda\to\infty}\text e^{tQ_\lambda}x$$ existiert und auf einem Kompaktum $[0,T]$ mit $T>0$ sogar gleichmäßig konvergiert. Hierzu stelle zunächst fest, dass $$\lim_{\lambda\to\infty}\lambda R_\lambda x=x$$ für alle $x\in\ell^1$. Die Identität folgt unmittelbar für alle $x\in D(Q)$, da  $\|\lambda R_\lambda x-x\|=\|R_\lambda Qx\|\leq \lambda^{-1}\|Qx\|$. Für die restlichen $x\in\ell^1$  wähle $\epsilon >0$. Dann gibt es $y\in  D(Q)$ so, dass $\|x-y\|<\frac{1}{3}\epsilon$ sowie $\lambda_0$ so, dass $\|\lambda R_\lambda y-y\|< \frac{1}{3}\epsilon$ für alle $\lambda > \lambda_0$. Dann folgt mit $\|\lambda R_\lambda\|\leq 1\|$$$\|\lambda R_\lambda x-x\|\leq\|\lambda R_\lambda(x-y)\|+\|\lambda R_\lambda y-y\|+\|y-x\|\leq 2\|  x-y\|+\|\lambda R_\lambda y-y\|<\epsilon.$$ Wir betrachten die selbe Identität erneut und setzten $Qx$ anstelle von $x$. Dann gilt für alle $x\in\D(Q)$, dass $$\lim_{\lambda\to\infty}Q_\lambda x=\lim_{\lambda\to\infty}\lambda R_\lambda Qx= Qx.$$  
+Sei also $t\in[0,T]$, $\lambda >0$, $\mu>0$ und $x\in D(Q)$. Betrachte die Abbildung $$[0,t]\ni s\mapsto \text e^{sQ_\mu}\text e^{(t-s)Q_\lambda}x$$ Da $Q_\lambda$ beschränkte, kommutative lineare Operatoren sind diese differenzierbar und es gilt $$\frac{\text d}{\text ds}\Big[\text e^{sQ_\mu}\text e^{(t-s)Q_\lambda}x\Big]=\text e^{s Q_\mu}\text e^{(t-s)Q_\lambda}(Q_\mu- Q_\lambda)x.$$ Damit gilt dann $$\|\text e^{tQ_\mu}x -\text e^{tQ_\lambda x}\|=\|\int_0^t\frac{\text d}{\text ds}\big[\text e^{sQ_\mu}\text e^{(t-s)Q_\lambda} x\big]\text ds\|\leq t\|Q_\mu x- Q_\lambda x\|\leq T\|Q_\mu x- Q_\lambda x\|.$$ Also existiert $\lim_{\lambda\to\infty} \text e^{t Q_\lambda} x$ f+r alle $x\in D(Q)$, da die rechte Seite mit $\lambda, \mu\to\infty$ gegen $0$ geht.  Da die Konvergenz nicht von $t\in[0,T]$ abhängit, gilt gleichmäßige Konvergenz, weswegen der Grenzwert bereits für alle $x\in\ell^1$ existiert. \\
+Die Familie $P(t),t\geq0$ vererbt dann einige Eigenschaften von $\text e^{t Q_\lambda}, t\geq0, \lambda \geq0$: So impliziert die Halbgruppeneigenschaft letzterer etwa die Halbgruppeneigenschaft von $P(t)$. Da die Konvergenz auf beschränkten Intervallen gleichmäßig ist, folgt mit der Stetigkeit von $t\mapsto\text e^{t Q_\lambda}x$ die Stetigkeit für $t\mapsto P(t)x$. Damit ist $(P(t))_{t\geq0}$ eine stark stetige Halbgruppe von (sub-)Markov Operatoren.\\
+Sei $\tilde Q$ zugehöriger Generator. Zeige $Q=\tilde Q$. Es gilt $$\text e^{t Q_\lambda}x-x=\int_0^t \text e^{s Q_\lambda}Q_\lambda x\text ds$$ für alle $x\in\ell^1$, da $Q_\lambda$ beschränkt, also insbesondere für $x\in D(Q)$. Für $\lambda\to\infty$ ist dann $$P(t)x-x=\int_0^t P(s)Qx\text ds.$$ Folglich ist $\lim_{t\downarrow 0}\frac{1}{t}(P(t)x-x)=Qx$, womit also $D( Q)\subseteq D(\tilde Q)$ mit $\tilde Qx=Qx$ für alle $x\in D(Q)$. Sei umgekehrt $x\in D(\tilde Q)$. Dann ist $\lambda x- \tilde Qx\in \ell^1$ und es gibt $x_0\in D(Q)\subseteq D(\tilde Q)$ so, dass $\lambda x- \tilde Qx=\lambda x_0-Qx_0$ gilt. Da aber die Lösung der Resolventengleichung für $\tilde Q$ nach Voraussetzung eindeutig ist, muss $x=x_0\in D(Q)$ sein, d.h. $D(\tilde Q)\subseteq D(Q)$.  
+\end{proof}
+
+
+\begin{comment}
+\begin{defi}[Banachverband]
+  	Sei $M$ Menge. Eine Relation $\leq $ auf $M$ heißt \textit{partielle Ordnung}, falls für alle $x,y,z\in M$ gilt:
+    \begin{compactenum}
+    \item  $x\leq x$.
+    \item $x\leq y$ und $y\leq x$ impliziert $x=y$.
+    \item $x\leq y$ und $y\leq z$ impliziert $x\leq z$. 
+    \end{compactenum}
+Es sei nun $M$ partiell geordnet und $A\subseteq M$. Ein Element $y\in M$ heißt \textit{obere (unter) Schranke} von $M$, falls $y\leq x$ ($y\geq x$) für alle $x\in A$. Besitzt $A$ eine obere  (untere) Schranke, so  heißt $A$ \textit{nach oben (unten) beschränkt}. Eine untere (obere) Schranke von $A$, die größer (kleiner) als jede andere untere (obere) Schranke von $A$ ist, heißt \textit{Supremum (Infimum)} von $A$, bezeichnet mit $\sup A$ ($\inf A$). Setze $x\wedge y:=\inf\{x,y\}$ und $x\vee y:=\sup\{x,y\}$. 
+\par Eine partiell geordnete Menge $M$ heißt \textit{Verband}, falls $x\wedge y$ und $x\vee y$ für alle $x,y\in M$ existieren.
+\par Ein reeller Vektorraum $X$ versehen mit einer partiellen Ordnung $\leq $ heißt \textit{Vektorverband} , falls $E$ ein Verband ist und es gelten: für alle $x,y,z\in X$ und Skalare $\alpha\geq0$ gilt:
+  \begin{compactenum}
+    \item $x\leq y\Rightarrow x+z\leq y+z$.
+    \item $x\leq y \Rightarrow \alpha x\leq \alpha y$. 
+  \end{compactenum}
+Für einen Vektorverband definiere $$x_+ :=x\vee 0,\quad x_-:=-(x\wedge 0)\quad\text{und}\quad |x|=x\vee(-x).$$
+Die Menge $X_+:=\{x\in X; x\geq0\}$ heißt \textit{positiver Kegel} von $X$ und ihre Elemente \textit{positive Vektoren}.
+Ist $X$ Banachraum, so bezeichne diesen als \textit{Banachverband}, falls $X$ Vektorverband ist und für alle $x,y\in X$ gelten $$|x|\leq |y|\Rightarrow \|x\|\leq \|y\|.$$
+\end{defi}
+
+\begin{bsp}
+Es seien $X$ und $Y$ Vektorverbände. Dann ist die Menge der linearen Operatoren von $X$ nach $Y$ partiell geordnet vermöge $$T\leq S:=Tx\leq Sx\text { für alle $x\in X_+$}.$$ Ein linearer Opeartor heißt \textit{positiv}, falls $T\geq0$ gilt. 
+\end{bsp}
+
+\begin{bem}
+Es ist $(\ell^1,\leq )$ ein Banachverband mit der  punktweisen Ordnung, d.h. $$(\xi_i)_{i\in\I}\leq (\eta_i)_{i\in\I}:= \xi_i\leq \eta_i\text{ für alle $i\in\I$}.$$
+\end{bem}
+
+\begin{bem}
+Für $X$ Vektorverband ist stets $x=x_+ - x_-$ für alle $x\in X$.
+\end{bem}
+\end{comment}
+
+
+\begin{bem} Gegeben sei eine Markovkette $(X_t)_{t\geq0}$ mit Werten in $\I$. Jeder \textit{Pfad} $t\mapsto X_t(\omega)$ verbleibt für eine gewisse Weile konstant auf einem Zustand $i\in\I$, bevor er zu einem neuen Zustand \textit{springt}. Dabei ist es möglich, dass der Pfad unendliche viele Sprünge in einem endlichen Zeitintervall macht, \textit{explodiert} also nach einer gewissen Zeit $\zeta$ das erste mal und startet anschließend erneut - womöglich von einem anderen Zustand oder etwa ohne erneut zu explodieren.
+  
+\par Bezeichne die \textit{Sprungzeiten} mit $J_0,J_1,\dots$ und mit $S_1,S_2,\dots$ die \textit{Haltezeiten} des Prozesses $(X_t)_{t\geq0}$. Dabei gilt $$J_0=0,\quad J_{n+1}=\inf\{t\geq J_n; X_t\neq X_{J_n}\}$$ für $n=0,1,\dots$ mit $\inf\emptyset = \infty$ und $$0\leq S_n=\begin{cases}J_n- J_{n-1}\quad&\text{falls } J_{n-1}< \infty\\\infty\quad&\text{sonst.}\end{cases}$$Dann definiere die \textit{(erste) Explosionszeit} $\zeta$ durch $$\zeta = \sup_{n\in\N}J_n=\sum_{n=1}^\infty S_n.$$ 
+
+\end{bem}
+
+\begin{defi}[Exponentielle Verteilung]
+  Eine Zufallsvariable $T\colon\Omega\to[0,\infty]$ besitzt eine \textit{exponentielle Verteilung} mit Parameter $0\leq \lambda <\infty$, falls $$\P(T>t)=\text e^{-\lambda t},\quad\forall t\geq0.$$ Schreibe $T\sim E[\lambda]$, falls $T$ eponentiell verteilt mit Parameter $\lambda$ ist. 
+\end{defi}
+
+\begin{bem}
+Sei $X\sim E[\lambda]$ exponential verteilt. Dann gilt $\mathbb E[X]=\frac{1}{\lambda}$.
+\end{bem}
+
+\begin{proof}
+Mittels partieller Integration rechnet man $$\mathbb E[X]=\int_0^\infty x\cdot \lambda e^{-\lambda x}\text dx = \lambda(-\frac{1}{\lambda}e^{-\lambda x}x]_0^\infty -\int_0^\infty 1\cdot(-\frac{1}{\lambda})\cdot e^{-\lambda x})=\lambda\cdot(\frac{1}{\lambda ^2}).$$
+\end{proof}
+
+\begin{comment}
+\begin{konstr}[Poissonprozess]
+  Ein \textit{Poissonprozess mit Intensität $\lambda$} ist ein rechtsseitig stetiger Prozess $(X_t)_{t\geq0}$ mit Werten in $\N_0$ so, dass die Haltezeiten $S_1,S_2,\dots$ unabhängige und exponentialverteilte Zufallsvariablen mit Parameter $\lambda$ sind und die Sprungkette ist gegeben durch $Y_n=n$ für alle $n\geq 0$.
+\end{konstr}
+\end{comment}
+
+\begin{konstr}[Geburtsprozess]
+  Seien $0\leq q_j<\infty$ für alle $j=0,1,\dots$ gegeben. Ein \textit{Geburtsprozess mit Intesität $(q_j;j\geq0)$} ist ein rechtsseitig stetiger Prozess $(X_t)_{t\geq0}$ mit Werten in  $\N_0\cup\{\infty\}$, falls, bedingt auf $X_0=i$, die Haltezeiten $S_1,S_2,\dots$ unabhängigt exponential verteilte Zufallsvariablen mit Parametern $q_i,q_{i+1},\dots$ sind und die Sprungkette ist gegeben durch $Y_n=i+n$.
+\end{konstr}
+
+\begin{bsp}Angenommen, eine Kolmogorov Matrix $Q$ habe Einträge $q_{ii}=-i^2$ und $q_{i,i+1}=i^2$ mit $q_{ij}=0$ sonst. Dann beschreibt $Q$ einen Geburtsprozess mit Intensität $(i^2, i\geq0)$:  Der Prozess $(X_t)_{t\geq0}$ startet im Zustand $i=1$, wartet dort mit der Haltezeit $S_1\sim E[1]$ und springt dann zum Zustand $i=2$. Hier wartet es mit der Haltezeit $S_2\sim E[4]$ und springt anschließend zum Zustand $i=3$, usw. Dabei gilt $$\mathbb E\Big[\sum_{i=1}^\infty S_i\Big]\leq\sum_{i=1}^\infty \mathbb E[S_i]=\sum_{i=1}^\infty\frac{1}{i^2}< \infty,$$d.h. $Q$ liefert keinerlei Information darüber, wie sich der Prozess $(X_t)_{t\geq0}$ nach dem Zeitpunkt $\zeta=\sum_{i=1}^\infty S_i<\infty$ verhalten soll. Es lassen sich also mit einer solchen \textbf{explosiven} Kolmogorov Matrix mehrere Markovketten und folglich auch mehrere Halbgruppen von Operatoren assoziieren.
+\end{bsp}
+
+
+\begin{comment}
+\begin{prop}
+  Sei $S_1,S_2,\dots$ eine Folge unabhängiger Zufallsvariablen mit $S_n\sim E(\lambda_n)$ und $0<\lambda_n<\infty$ für alle $n\geq1$. Dann gilt:
+  \begin{compactenum}
+      \item Ist $\sum_{n=1}^\infty \frac{1}{\lambda_n}< \infty$, dann gilt $\P(\sum_{n=1}^\infty S_n <\infty)=1$.
+      \item Ist $\sum_{n=1}^\infty \frac{1}{\lambda_n}=\infty$, dann gilt $\P(\sum_{n=1}^\infty S_n=\infty)=1$.
+  \end{compactenum}
+\end{prop}
+
+\begin{prop}
+  Sei $(X_t)_{t\geq0}$ ein Geburtsprozess mit Intensität $(q_j)_{j\geq0}$, welcher bei $0$ beginnt. Dann gilt:
+  \begin{compactenum}
+      \item Ist $\sum_{j=0}^\infty \frac{1}{q_j}< \infty$, dann gilt $\P(\zeta <\infty)=1$.
+      \item Ist $\sum_{j=0}^\infty \frac{1}{q_j}= \infty$, dann gilt $\P(\zeta =\infty)=1$.
+  \end{compactenum}
+\end{prop}
+
+\end{comment}
+\begin{comment}
+\begin{defi}[Explosivität]
+  Eine Kolmogorov Matrix $Q$ heißt \textit{explosiv}, wenn es $i\in\I$ gibt so, dass für die zugehörige Markovkette $(X_t)_{t\geq0}$ gilt $$\P(\zeta<\infty|X_0=i)>0.$$
+  Entsprechend bezeichne  $Q$ \textit{nicht-explosiv}, falls $\P_i(\zeta<\infty)=0$ für alle $i\in \I$.
+\end{defi}
+\end{comment}
+\begin{comment}
+\begin{satz}
+  Sei $(X_t)_{t\geq0}$ ein zeitlich-homogener Markovkette mit Generator $Q$ und es sei $\zeta$ die Explosionszeit von $(X_t)_{t\geq0}$. Sei $\lambda>0$ und setze $z_i=\E_i(\text e^{-\theta \zeta})$. Dann erfüllt $z=(z_i)_{i\in\I}$:
+  \begin{compactenum}
+      \item $|z_i|\leq 1$ für alle $i\in\I$.
+      \item $Qz = \lambda z$.
+  \end{compactenum}
+\end{satz}
+\end{comment}
+\begin{comment}
+\begin{bsp}Beim obigen  Beispiel eines Geburtsprozesses mit explosiven Generator $Q$ gibt es etwa $\lambda =1$ mit $$Q\cdot\eta_i=-i^2\prod_{j=1}^\infty \frac{j^2}{j^2+1}+i^2\prod_{j=i+1}^\infty\frac{j^2}{j^2+1}=(-i^2+1+i^2)\prod_{j=i}^\infty\frac{j^2}{j^2+1}=1\cdot\eta_i,$$ also ist $Q$ explosiv.
+\end{bsp}
+\end{comment}
+
+\begin{prop}
+Sei $(x_n)_n$ eine Folge in $\ell^1$. Ist $0\leq x_n\leq x_{n+1}$ für alle $n\geq 1$ und $\|x_n\|\leq M$ für eine reelle Zahl $M\geq0$, dann ist $(x_n)_n$ konvergent. 
+\end{prop}
+
+\begin{proof}
+Die Koordinatenfolgen $(\xi_{n,i})_{n\in\N}$ jeder monoton nicht-fallenden und beschränkten Folge $(x_n)_n$ sind für alle $i\in I$ konvergent, i.e. die Folge konvergiert punktweise gegen ein $x\in \ell^1$. Dann folgt die Behauptung mit dem \textsc{Satz von der monotonen Konvergenz}.
+\end{proof}
+
+
+
+\begin{prop}
+Sei $(X_t)_{t\geq0}$ zeitlich-homogene Markovkette und $p_{ij}(t)$ die zugehörigen Übergangswahrscheinlichkeiten mit $i,j\in\I$ Zustandsraum. Dann gilt
+\begin{compactenum}
+\item  Für alle $i\in\I$ existiert $q_i=\lim_{t\downarrow 0}[1-p_{ii}(t)]/t=P_{ii}'(0)$, ist aber nicht notwendig endlich.
+\item Für alle $i,j\in\I$ mit $i\neq j$ existiert $q_{ij}=\lim_{t\downarrow 0}\frac{p_{ij}(t)}{t}=P_{ij}'(0)$ und ist endlich.
+\end{compactenum}
+xistiert
+\end{prop}
+
+\begin{comment}
+\begin{lem}
+  Sei $(x_n)_{n\in\N}$ eine punktweise konvergente Folge von Verteilungen in $\ell^1$ mit Grenzwert $x=(\xi_i)_{i\in\I}$. Ist $x$ ebenfalls Verteilung, dann gilt bereits Normkonvergenz.
+\end{lem}
+
+\begin{proof}
+Sei $A_n= \{i\in \I; \xi_i\geq \xi_{n,i}\}$. Es gilt 
+\begin{align*}
+\sum_{i\in\I}|\xi_{n,i}-\xi_i|
+&=\sum_{i\in A_n}|\xi_{n,i}-\xi_i|+\sum_{i\not\in A_n}(\xi_{n,i}-\xi_i)\\
+&=\sum_{i\in A_n}|\xi_{n,i}-\xi_i|  +\sum_{i\in A_n}(\xi_i -\xi_{n,i})\\
+&= 2\sum_{i\in A_n}|\xi_{n,i}-\xi_i|\\
+&=\sum_{i\in\I}\eta_{n,i},
+\end{align*}
+wobei $\eta_{n,i}=2|\xi_{n,i}-\xi_i|$ für $i\in A_n$ und $0$ sonst. Dann folgt die Aussage mit dem \textsc{Satz von der dominierten Konvergenz} wegen $\eta_{n,i}\leq 2\xi_i$ für alle $n\geq1 $ und $i\in \I$.
+\end{proof}
+
+\end{comment}
+\begin{prop}
+  Sei $(D,D(Q))$ Generator von $(X_t)_{t\geq0}$ zeitlich homogene Markovkette mit  unendlichem Zustandsraum $\I$. Angenommen, für alle $i\in\I$ ist $q_i:=-q_{ii}< \infty$ und  $\sum_{j\neq i}q_{ij}=q_i$, dann gilt:
+  \begin{compactenum}
+    \item $e_i\in D(Q)$ für alle $i\in\I$.
+    \item $Qe_i= (q_{ij})_{j\in\I}$. 
+  \end{compactenum}
+\end{prop}
+
+\begin{comment}
+\begin{proof}
+Sei $q_i=0$. Dann ist $P(t)e_i$ die $i$-te Zeile der Matrix $P(t)$ und es gilt  $$\|\frac{1}{t}(P(t)e_i-e_i)\|=\frac{1}{t}\sum_{j\neq i}p_{ij}(t)+\frac{1}{t}[1-p_{ii}(t)]=\frac{2}{t}[1-p_{ii}(t)]\to 2q_i=0,$$ d.h. $\lim_{t\downarrow 0}\frac{1}{t}(P(t)e_i-e_i)=0=(q_{ij})_{j\in\I}$. Für $q_i>0$ sei $v_i(t)$ Vektor mit $0$ in der $i$-ten Koordinate und für alle $j\neq i$ mit Einträgen $\frac{1}{t}p_{ij}(t)$ Zeige, dass $v_i(t)$ gegen die $i$-te Reihe der Matrix $(q_{ij})_{i,j\in\I}$ konvergiert, wobei hier das $i$-te Element $0$ sei. Schreibe hierfür $v_i$
+\end{proof}
+\end{comment}
+
+\begin{konstr}
+  Sei $Q=(q_{i,j})_{i,j\in\mathbb I}$ Kolmogorov Matrix und $e_n=(\delta_{n,i})_{i\in\mathbb I}$ Folge in $\ell^1$. Dann erhalten wir einen linearen Operator $(Q_0, D(Q_0))$ mit Definitionsbereich durch $$D(Q_0)=\text{Lin}(e_n;n\in\mathbb N),\quad Q_0e_i:=(q_{i,j})_{j\in\mathbb I},\quad \forall i\in\mathbb N.$$
+\end{konstr}
+
+
+
+\begin{satz}
+  Sei $Q=(q_{i,j})_{i,j\in\mathbb I}$ Kolmogorov Matrix und $(Q_0, D(Q_0))$ zugehöriger Operator mit Definitionsbereich. Dann gibt es stets eine Fortsetzung $(Q_m, D(Q_m))$ von $(Q_0, D(Q_0))$, welche eine minimale stark stetige Halbgruppe $(P_m(t))_{t\geq0}$ von sub-Markov Operatoren erzeugt,  d.h. für jede Fortsetzung $(\tilde Q,D(\tilde Q))$ von $(Q, D(Q))$ mit Operator $(\tilde P(t))_{t\geq0}$ gilt $$P(t)x\leq\tilde P(t)x,\quad \forall t\geq 0,\forall x\in D(Q).$$
+\end{satz}
+
+\begin{bem}
+  Idee: Multipliziere die Einträge von $Q$ abseits der Diagonalen  mit $r\in [0,1)$ und zeige:
+  \begin{compactenum}
+      \item Für jedes $r\in[0,1)$ erzeugt die modifizierte Matrix eine stark stetige Halbgruppe $(P_r(t))_{t\geq0}$ von sub-Markov Operatoren.
+      \item Mit $r\to 1$ konvergiert $(P_r(t))_{t\geq0}$ zu einer stark stetigen Halbgruppe $(P_m(t))_{t\geq0}$ von sub-Markov Operatoren, welche minimal unter allen Fortsetzungen von $(Q_0, D(Q_0))$ ist.
+  \end{compactenum}
+\end{bem}
+
+\begin{lem}
+  Sei $Q=(q_{i,j})_{i,j\in\I}$ Kolmogorov Matrix. Dann erhalten wir lineare Operatoren  $(U,D(U))$ und $(O,D(O))$ mit Definitionsbereich durch  $$U(\xi_i)_{i\in\mathbb I}:=(-q_i\xi_i)_{i\in\mathbb I},\quad O(\xi_i)_{i\in\mathbb I}:=\big(\sum_{j\geq1,j\neq i}\xi_jq_{j,i}\big)_{i\in\mathbb I}$$ für alle  $(\xi_i)_{i\in\I}\in D(U)=\Big\{(\xi_i)_{i\in\mathbb I}\in\ell^1;(q_i\xi_i)_{i\in\mathbb I}\in\ell^1\Big\}$ mit $D(O)=D(U)$. Weiter gilt:
+  \begin{compactenum}
+    \item $U$ ist nicht-negativ, insb. $Ux\geq0$ für alle Verteilungen $x\in D(U)$.
+    \item Für alle $x\in D(U)$ ist $\|Ox\|\leq\|Ux\|$ und $\|Ox\|=\|Ux\|$, falls $x$ Verteilung ist.
+    \item Für alle $0\leq r< 1$ ist $(U+rO, D(U))$ Generator einer stark stetigen Halbgruppe $(P_r(t))_{t\geq0}$ von sub-Markov Operatoren.
+    \end{compactenum}
+\end{lem}
+
+\begin{proof}[Beweis des Lemmas] 
+  Zu '(i)': Ist klar.\\
+  Zu '(ii)': Sei $x\in D(U)$. Dann gilt $$\sum_{i\geq 1}\Bigg|\sum_{j\geq1, j\neq i}\xi_j q_{ji}\Bigg|\leq \sum_{i\geq 1}\sum_{j\geq1, j\neq i}|\xi_j q_{ji}|=\sum_{j\geq1}|\xi_j|\sum_{i\geq1, i\neq j}q_{ji}=\sum_{j\geq1}|\xi_i|q_j=\|Ux\|,$$ wobei Gleichheit genau dann herscht, wenn $x=(\xi_i)_{i\in\I}$ nicht-negativ ist.\\
+  Zu '(iii)': Sei $r=0$. Dann erzeugt $U=U+rO$ eine Halbgruppe vermöge $P_0(t)(\xi_i)_{i\in\I}=(\text e^{-q_it}\xi_i)_{i\in\mathbb I}$ von stark stetigen sub-Markov Operatoren . Sei also $r\in(0,1)$. Wir zeigen, dass die Voraussetzungen für \textsc{Hille-Yosida} erfüllt sind:
+  \begin{compactenum}
+  \item ''$R_{\lambda,r}=(\lambda-U-rO)^{-1}$'': Für $\lambda >0$ betrachte 
+  $$B_\lambda:=O(\lambda-U)^{-1}$$
+  mit $(\lambda-U)^{-1}(\xi_i)_{i\in\I}=\big(\frac{1}{\lambda+q_i}\xi_i\big)_{i\in\I}$. Dann ist $B_\lambda$ für alle $x\in\ell^1$ ein linearer Operator. Weiter ist $B_\lambda$ eine Kontraktion, denn 
+  $$\|B_\lambda x\|=\|O(\lambda-U)^{-1}\|\leq\|U(\lambda-U)^{-1}x\|=\sum_{j\geq1}\frac{q_j}{\lambda+q_j}|\xi_j|< \sum_{j\geq1}|\xi_j|=\|x\|.$$
+  Damit existiert $(I-rB_\lambda)^{-1}$, d.h. $\sum_{n=0}^\infty r^n B_\lambda ^n$ konvergiert. Betrachte den beschränkten linearen Operator 
+  $$R_{\lambda,r}:=(\lambda-U)^{-1}\sum_{n=0}^\infty r^n B_\lambda^n.$$ 
+  Für alle $x\in\ell^1$ ist $R_{\lambda,r}x\in D(U)$ und es gilt
+  $$(\lambda-U)R_{\lambda,r}x=\sum_{n=0}^\infty r^n B_\lambda^n x,\quad\text{sowie}\quad rOR_{\lambda,x}x=r B_\lambda\sum_{n=0}^\infty r^n B_\lambda^n x=\sum_{n=1}^\infty r^n B_\lambda^n x.$$
+  Subtraktion der beiden Gleichungen ergibt $(\lambda-U-rO)R_{\lambda,r}x=x$ und mit $R_{\lambda,r}(\lambda-u)=\sum_{n=0}^\infty r^n((\lambda-U)^{-1}O)^n$ sowie $R_{\lambda, r}rO=\sum_{n=1}^\infty r^{n}((\lambda-U)^{-1}O)^{n}$ ebenso $R_{\lambda,r}(\lambda-U-rO)x=x$ für alle $x\in D(U)$, also 
+  $$R_{\lambda,r}=(\lambda-U-rO)^{-1}.$$
+  \item ''$U+rO$ ist abgeschlossen'': Sei $(x_n)_{n\in\N}$ eine Folge in $D(U)$ mit $x_n\to x$ sowie $(U+rO)x_n\to y$. Da $R_{\lambda,r}$ beschränkt ist , gilt   
+  $$x=\lim_{n\to\infty} x_n=\lim_{n\to\infty}(\lambda-U-rO)^{-1}(\lambda x_n-(U+rO)x_n)=(\lambda-U-rO)^{-1}(\lambda x-y),$$
+  womit $x\in D(U)$ und $y=(U+rO)x$.
+  \item ''$U+rO$ ist dicht definiert'': Klar, da $D(U)\supseteq\text{Lin}(e_n; n\in\N)$.
+  \item ''$\lambda R_{\lambda,r}$ ist sub-Markov'sch'':
+  Ist $x\geq0$, so folgt $y=R_{\lambda,r}x\geq0$ sowie $(\lambda-U)^{-1}\geq0$, $O\geq0$ und damit $B_\lambda\geq0$ . Damit ist dann 
+  \begin{align*}
+  \|\lambda y\|&\leq\|\lambda y\|+(1-r)\|Uy\|\\
+  &=\|\lambda y-Uy\| - r\|Uy\|\\
+  &= \|\lambda y-Uy\|-r\|Oy\|\\
+  &\leq\|\lambda y-Uy-rOy\|=\|x\|.\end{align*}
+  \end{compactenum} 
+  Damit erzeugt $(U+rO, D(U))$ mit \textsc{Hille-Yosida} für alle $r\in[0,1)$ eine stark stetige Halbgruppe $(P_r(t))_{t\geq0}$ von sub-Markov Operatoren. 
+\end{proof}
+
+\begin{proof}[Beweis des Satzes] Für $0\leq r< 1$ sei $(P_r(t))_{t\geq0}$ die von  $(U+rO, D(U))$ erzeugte stark stetige Halbgruppe von sub-Markov Operatoren.
+  \begin{compactenum}
+  \item ''$\lim_{r\uparrow 1}P_r(t)x$ existiert'': Sei $\ell^1\ni x\geq0$.  Wegen
+    $$R_{\lambda, r}=(\lambda -U)^{-1}\sum_{n=0}^\infty r^n B_\lambda ^n$$
+  ist $R_{\lambda,r}x\leq R_{\lambda, r'}x$ für alle $r\leq r'$ und mit $P_r(t)x=\lim_{\lambda\to\infty}\text e^{t\lambda(\lambda R_{\lambda,r}-I)}$ folgt 
+    $$P_r(t)x=\lim_{\lambda\to\infty}\text e^{-\lambda t}\text e^{t\lambda^2 R_{\lambda, r}}x\leq\lim_{\lambda\to \infty}\text e^{-\lambda t}\text e^{t\lambda^2 R_{\lambda,r'}}x=P_{r'}(t)x.$$
+  Weiter ist $\|P_r(t)x\|\leq\|x\|$   und mit der Eigenschaft von $\ell^1$ Kantorovich Banachraum zu sein,  existiert der starke Limes $\lim_{r\uparrow1}P_r(t)x=:P_m(t)x$. Für beliebiges $x\in\ell^1$ setze $x:=x_+ - x_-$ und die Teilaussage folgt.
+  \item ''$(P_m(t))_{t\geq0}$ stark stetige Halbgruppe von sub-Markov Operatoren'':  Die Halbgruppeneigenschaft von $(P_r(t))_{t\geq0}$ bleibt nach Grenzübergang erhalten, ebenso die Eigenschaften sub-Markov'sch zu sein. Zur starken Stetigkeit: Für $i\in \I$ sei $p_{i,i}(t)$ Element der Diagonalen des Operators $P_m(t)$ mit $t\geq0$. Wegen $P_m(t)\geq P_0(t)$ erhalten wir $$1\geq p_{i,i}(t)\geq \text e^{-tq_i},$$ und  damit $\lim_{t\downarrow 0}p_{i,i}(t)=1$. Dies impliziert dann starke Stetigkeit.
+  \item ''$(Q_m, D(Q_M))$ ist Fortsetzung von $(U+O, D(U))$'': Sei $x\in D(U)$: Dann gilt für alle $r\in[0,1)$ und $t>0$ $$P_r(t)x-x=\int_0^t P_r(s)(Ux+rOx)\text ds.$$
+  Für $r\uparrow 1$ erhalten wir mit dem \textsc{Satz von der majorisierten Konvergenz}, dass
+    $$P_m(t)x-x=\int_0^t P_m(s)(Ux+Ox)\text ds.$$
+  Damit ist dann $x\in D(Q_m)$ und $Q_mx=Ux+Ox$ .
+  \item ''$(P_m(t))_{t\geq0}$ ist minimal'': Sei $(\tilde Q, D(\tilde Q))$ eine  Fortsetzung von $(Q_0, D(Q_0))$, welche eine Halbgruppe $(\tilde P(t))_{t\geq0}$ von Markov Operatoren erzeugt. \\ 
+  \par Zeige zunächst, dass $(\tilde Q, D(\tilde Q))$ ebenfalls $(U+O, D(U))$ fortsetzt. Sei hierzu $x=\sum_{n=1}^\infty \xi_n e_n \in D(U)=D(U+O)$. Damit ist auch $x_N:=\sum_{n=1}^N \xi_n e_n$ für alle $N\geq1$ in $D(U)$ enthalten, und da $\tilde Q e_n=Q_0e_n=(U+O)e_n$ erhalten wir $\tilde Q x_N=(U+O)x_N$. Weiter gilt $\lim_{N\to\infty}Ux_N =Ux$ und wegen $\|O(x_N-x)\|\leq \|U(x_N-x)\|$ ebenfalls $\lim_{N\to\infty}O x_N=Ox$. Also existiert $\lim_{N\to\infty}\tilde Q x_N$ und ist gleich $(U+O)x$. Da $\tilde Q$ als Generator abgeschlossen ist, erhalten wir $x\in D(\tilde Q)$ und $\tilde Qx=(U+O)x$.\\
+  \par Für die Minimalität zeige $(\lambda - Q_m)^{-1}\leq (\lambda-\tilde Q)^{-1}$. Dann folgt die Behauptung mit
+  $$P_m(t)=\lim_{\lambda\to\infty}\text e^{-\lambda t}\text e^{\lambda^2 (\lambda - Q_m)^{-1}}\leq\lim_{\lambda\to\infty}\text e^{-\lambda t}\text e^{\lambda^2(\lambda -\tilde Q)^{-1}t}=\tilde P(t).$$
+  Sei hierzu $x\in\ell^1$. Für jedes $y\in D(U)$ gilt die Identität $$(1-r)Oy = \tilde Qy - Uy-rOy=(\lambda - U - rO)y-(\lambda - \tilde Q)y$$ und mit $y=(\lambda - U -rO)^{-1}x$ sowie Multiplikation der Gleichung mit $(\lambda-\tilde Q)^{-1}$ erhalten wir $$0\leq(1-r)(\lambda-\tilde Q)^{-1} O(\lambda - U-rO)^{-1}x=(\lambda- \tilde Q)^{-1}x-(\lambda- U-rO)^{-1}x,$$
+  also $(\lambda-U-rO)^{-1}\leq (\lambda -\tilde Q)^{-1}$. Damit folgt  dann$$(\lambda-Q_m)^{-1}=\int_0^\infty \text e^{-\lambda t}P_m(t)\text dt = \lim_{r\uparrow 1}\int_0^\infty \text e^{-\lambda t}P_r(t)\text dt=\lim_{r\uparrow 1} R_{\lambda, r}\leq (\lambda- \tilde Q)^{-1}.$$
+  \end{compactenum}
+\end{proof}
+
+
+
+\begin{prop}
+  Sei $A=(a_{i,j})_{i,j\in\mathbb I}$ eine Matrix. Dann sind äquivalent:
+  \begin{compactenum}
+      \item $A$ definiert einen beschränkten linearen Operator auf $\ell^1$ durch  $$A(\xi_i)_{i\in \mathbb I}:=\Bigg(\sum_{j\in\mathbb I}\xi_j a_{j,i}\Bigg)_{i\in\mathbb I}\quad \forall (\xi_i)_{i\in\mathbb I}\in\ell^1.$$
+      \item Es gilt $\sup_{i\in\mathbb I}\sum_{j\in\mathbb I}|a_{i,j}|<\infty$.
+\end{compactenum}~\\
+  In jedem Falle gilt dann $\|A\|=\sup_{i\in\mathbb I}\sum_{j\in\mathbb I}|a_{i,j}|$.
+\end{prop}
+
+\begin{proof}
+Ist $A$ beschränkt, so gilt insb. $\|Ae_i\|<\infty$ für alle $e_i=(\delta_{ij})_{j\in \I}$ und die Hinrichtung folgt. Umgekehrt gilt für alle $x\in \ell^1$, dass
+$$\|Ax\|=\sum_{j\in\I}\Bigg|\sum_{i\in\I}\xi_i a_{ij}\Bigg|\leq\sum_{i\in\I}|\xi_i|\sum_{j\in\I}|a_{ij}|<\infty,$$ d.h. $A$ definiert einen beschränkten Operator auf $\ell^1$, welcher weiter linear ist. Der Zusatz ist klar.
+\end{proof}
+
+\begin{prop}
+  Sei $Q$ Generator einer zeitlich-homogenen Markovkette. Dann sind äquivalent:
+  \begin{compactenum}
+      \item $Q$ ist nicht-explosiv.
+      \item Ist $Q\cdot(\eta_i)=\lambda \cdot(\eta_i)$ mit $|\eta_i|\leq 1$ für alle $\lambda>0$, dann gilt bereits $(\eta_i)=0$.
+  \end{compactenum}
+\end{prop}
+
+\begin{satz}
+  Sei $Q=(q_{i,j})_{i,j\in\mathbb I}$ Kolmogorov Matrix und  $(Q_0, D(Q_0))$ zugehöriger Operator mit Definitionsbereich. Für die minimale Fortsetzung $(P_m(t))_{t\geq0}$ von sub-Markov Operatoren mit Generator $(Q_m, D(Q_m))$ sind dann äquivalent:
+  \begin{compactenum}
+      \item $(P_m(t))_{t\geq0}$ ist eine Komposition von Markov Operatoren.
+      \item  Die Kolmogorov Matrix $Q$ ist nicht explosiv.
+  \end{compactenum}
+\end{satz}
+
+\begin{lem} 
+  Für $\lambda >0$ gilt  $(\lambda-Q_m)^{-1}=\sum_{n=0}^\infty (\lambda - U)^{-1} B_\lambda^n$, wobei $B_\lambda = O(\lambda-U)^{-1}$.
+\end{lem}
+
+\begin{proof}[Beweis des Lemmas]
+  Sei $N\in\mathbb N$. Dann ist $\sum_{n=0}^N (\lambda - U)^{-1}r^n B_\lambda ^n\leq R_{\lambda, r}\leq (\lambda- Q_m)^{-1}$. Für $r\uparrow 1$ erhalten wir $\sum_{n=0}^N (\lambda-U)^{-1} B_\lambda ^n\leq (\lambda- Q_m)^{-1}$. Da $\ell^1$ Kantorovich Banachraum ist, konvergiert die Reihe $\sum_{n=0}^\infty (\lambda-U)^{-1}B_\lambda^n$ und wir erhalten $\sum_{n=0}^\infty (\lambda-U)^{-1}B_\lambda^n\leq (\lambda-Q_m)^{-1}$. Für alle $r\in(0,1)$ ist $R_{\lambda, r}\leq\sum_{n=0}^\infty (\lambda-U)B_\lambda^n$ und mit $r\uparrow 1$ erhalten wir $(\lambda-Q_m)^{-1}\leq\sum_{n=0}^\infty (\lambda-U)^{-1}B_\lambda ^n$.
+\end{proof}
+
+\begin{lem}
+  Sei $(P_m(t))_{t\geq0}$ Komposition von Markov Operatoren. Dann liegt $\text{rg}(\lambda -Q_0)$ für alle $\lambda>0$ dicht in $\ell^1$. 
+\end{lem}
+
+\begin{proof}[Beweis des Lemmas]
+  Sei $(P_m(t))_{t\geq0}$ eine Komposition von Markov Operatoren. Dann sind für alle $\lambda>0$ die Operatoren $\lambda (\lambda-Q_m)^{-1}$ mit \textsc{Hille-Yosida} ebenfalls Markov'sch . Betrachte die Identität
+    $$I+O\sum_{k=0}^n(\lambda- U)^{-1}B_\lambda^k = (\lambda- U)\sum_{k=0}^n(\lambda-U)^{-1}B_\lambda^k + B_\lambda^{n+1},$$
+  wobei $O(\lambda-U)^{-1}=B_\lambda$. Für  $x\geq0$ gilt dann mit $-U\geq0$ 
+    $$\|x\|+\|O\sum_{k=0}^n(\lambda- U)^{-1}B_\lambda^kx\|=\|\lambda\sum_{k=0}^n(\lambda - U)^{-1}B_\lambda^kx\|+\|U\sum_{k=0}^n(\lambda-U)^{-1}B_\lambda^k x\|+\|B_\lambda^{n+1}x\|.$$ 
+  Wegen $\|Oy\|=\|Uy\|$ für alle $y\geq0$ gilt dann 
+    $$\|x\|=\|\lambda\sum_{k=0}^n (\lambda-U)^{-1}B_\lambda^k x\|+\|B_\lambda^{n+1}x\|.$$
+  Wegen $\|x\|=\|\lambda(\lambda- Q_m)^{-1}x\|$  gilt dann nach Grenzübergang $\lim_{n\to\infty}\|B_\lambda^nx\|=0$. Mit $x=x_+-x_-$ gilt dies bereits für alle $x\in\ell^1$. Schreiben wir obige Identität um, so erhalten wir für alle $x\in\ell^1$ 
+    $$(\lambda-U-O)\sum_{k=0}^n (\lambda-U)^{-1}B_\lambda^kx = x-B_\lambda^{n+1}x.$$
+  Mit $n\to\infty$ ist schließlich 
+    $$(\lambda-U-O)(\lambda-Q_m)^{-1}x=x.$$
+  Damit ist also jedes $x\in\ell^1$ Grenzwert  einer Folge in $\text{rg}(\lambda-U-O)$, d.h. $\text{rg}(\lambda-U-O)$ liegt dicht in $\ell^1$. Schließlich wissen wir, dass für jedes $x\in D(Q_0)$ es eine Folge $(x_n)_n$ gibt mit $\lim_n x_n=x$ und $\lim_{n}Q_0x_n=\lim_{n}(U+O)x_N=(U+O)x$. Damit folgt, dass $\text{rg}(\lambda-U-O)$ dicht in $\overline{\text{rg}(\lambda-Q_0)}$ liegt, und die Behauptung folgt.
+\end{proof}
+
+\begin{proof}[Beweis des Satzes]
+Zeige lediglich die Hinrichtung: Sei $(P_m(t))_{t\geq0}$ eine Komposition von Markov Operatoren und es sei  $\lambda >0$ sowie $(\eta_i)_{i\in\mathbb I}$ eine beschränkte Folge mit $Q(\eta_i)_{i\in\mathbb I}=\lambda(\eta_i)_{i\in\mathbb I}$. Für alle $(\xi_i)_{i\in\mathbb I}\in\ell^1$ ist dann $F(\xi_i)_{i\in\mathbb I} = \sum_{i\in\I}\xi_i\eta_i$ ein beschränktes lineares Funktional mit Norm $\|F\|=\sup_{i\in\I}|\eta_i|$ . Nach Annahme ist dann $F(\lambda e_i-Q_0e_i)=0$ für alle $i\in\I$, also $Fx=0$ für alle $x\in\text{rg}(\lambda-Q_0)$. Da $\lambda-Q_0$ dicht in $\ell^1$ liegt, ist $F$ bereits überall $0$ und damit auch alle $\eta_i$, weshalb $Q$ nicht explosiv ist.
+\end{proof}
+
+\begin{comment}
+\section{Kern von Markov Operatorhalbgruppen}
+
+\begin{defi}
+  Sei $A\colon D(A)\subseteq X\to X$ ein linearer Operator und $D\subseteq D(A)$ Teilmenge. Dann wird $D$ als \textit{Kern} von $A$ bezeichnet, falls für jedes $x\in D(A)$ eine Folge $(x_n)_{n\in \N}$ in $D$ gibt so, dass $\lim_{n\to\infty}x_n=x$ und $\lim_{n\to\infty}Ax_n=Ax$ gilt.
+\end{defi}
+
+\begin{bem}
+  Kartesisches Produkt von Banachräumen ist wieder in Banachraum.
+\end{bem}
+
+\begin{defi}
+  Eingeschränkter Operator $A|_D$.
+\end{defi}
+
+\begin{defi}
+  Graph eines Operators $A$.
+\end{defi}
+
+\begin{prop}
+  $D\subseteq D(A)$ ist Kern genau dann wenn $\text{Graph}|_D(A)$ dicht in $\text{Graph}(A)$ liegt.
+\end{prop}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{bem}
+  Sei $D\subseteq D(A)$ Teilmenge. Dann sind äquivalent
+  \begin{compactenum}
+      \item $D\subseteq D(A)$ ist Kern von $A$.
+      \item $A|_D$ liegt dicht in $\text{rg}(A)$ und es gibt $c>0$ so, dass für alle $x\in D(A)$ gilt $\|Ax\|\geq c\|x\|$.
+  \end{compactenum}
+\end{bem}
+
+\begin{folg}
+  Ist $A$ Generator einer Halbgruppe von sub-Markov Operatoren. Dann ist  $D\subseteq D(A)$ Kern von $A$  genau dann, wenn $\lambda- A|_D$ dicht in $\ell^1$ für ein (und damit für alle) $\lambda >0$ liegt.
+\end{folg}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{prop}
+  Sei $A$ Generator einer sub-Markov Operatorhalbgruppe und $D\subseteq D(A)$ Teilmenge. Dann sind äquivalent:
+  \begin{compactenum}
+      \item $D$ ist Kern für $A$.
+      \item Es gibt $\lambda>0$ so, dass $\text{rg}(\lambda-A|_D)$ dicht in $l^1$ liegt.
+  \end{compactenum}
+\end{prop}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{prop}
+  Sei $Q$ Kolmogorov Matrix und $Q_0$ zugehöriger Operator mit Definitionsbereich. Dann ist $D(Q_0)$ ein Kern für $Q_m$.
+\end{prop}
+
+\begin{proof}
+
+\end{proof}
+
+\section{Tensorprodukt von Markov Operatorhalbgruppen}
+
+\begin{konstr}
+  Für $\alpha=1,2$ seien nicht-explosive Kolmogorov Matrizen $Q_\alpha = (q_{i,j}^\alpha)_{i,j\in\I}$ zweier zeitlich-homogene Markovketteen $(X_\alpha(t))_{t\geq0}$ mit der gemeinsamen Verteilung $m=(\xi_{i,j})_{i,j\in \I\in\mathcal M}$ und es seien $(P_\alpha(t))_{t\geq0}$ die zugehörigen stark stetige Halbgruppen von Markov Operatoren. Dann ist die Abbildung $$ t\mapsto S(t):=\big[P_1(t)\otimes P_2(t)\colon m\mapsto [P_1(t)]^\top\cdot m\cdot P_2(t)\big]\quad t\geq0$$ eine stark stetige Halbgruppe von Markov Operatoren auf $\mathcal M$, genannt  \textit{Tensorprodukt}. 
+\end{konstr}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{bem}
+  Für $\alpha =1,2$ seien $(X_\alpha(t))_{t\geq0}$ zeitlich-homogene Markovkette mit endlichem Zustandsraum $\I\subseteq \N$. Dann ist das zugehörige Tensorprodukt $S(t)=P_1(t)\otimes P_2(t)$ differenzierbar mit $$\frac{\text d S(t)m}{\text dt}=Q_1^\top\cdot[S(t)m]+[S(t)m]\cdot Q_2.$$ Der zugehörige Generator $G$ ist gegeben durch $$Gm=Q_1^\top\cdot m+m\cdot Q_2.$$
+\end{bem}
+
+\begin{prop}
+  Sei $(S(t))_{t\geq0}$ das Tensorprodukt zweier stark stetigen Halbgruppen von Markov Operatoren $(P_1(t))_{t\geq0}$ und $(P_2(t))_{t\geq0}$ und es sei $(G, D(G))$ der Generator. Dann ist  $$D_0(G):=\text{Lin}(m\in\mathcal M; m=x_1\otimes x_2 \text{ mit } x_\alpha\in D(Q_\alpha), \alpha=1,2)$$ ein Kern für $D(G)$. Für alle $m\in D_0(G)$ gilt dann $Gm=(Q_1x_1)\otimes x_2+x_1\otimes (Q_2 x_2)$.
+\end{prop}
+
+\begin{prop}
+  Es sei $(P_(t))_{t\geq0}$ stark stetigen Halbgruppe von Markov Operatoren. Dann ist das zugehörige Tensorprodukt $S(t)=P(t)\otimes P(t)$ eine stark stetige Halbgruppe von Markov Operatoren auf $\mathcal M_s$. 
+\end{prop}
+
+\begin{proof}
+
+\end{proof}
+´
+\chapter{Master Gleichung} 
+
+\section{Wright-Fisher-Moran Modell mit Coalescent}
+
+Einführung Wright Fisher Moran  Modell  Drift Mutation Kingman-Coalescent.
+
+
+\section{Die gemeinsame Verteilung einer Population}
+
+\begin{konstr}
+  Für $(r_{i,j})_{i,j\in\I}\in \mathcal M_s$ sowie $(\xi_i)_{i\in \I}\in\ell^1$ definiere
+  $$K(r_{i,j})_{i,j\in\I}:=\Big(\sum_{j\in\I} r_{i,j}\Big)_{i\in \I},\quad \Theta(\xi_i)_{i\in\I}:= (\delta_{i,j}\xi_i)_{i,j\in\I}.$$
+  Dann sind $K\in\mathcal L(\mathcal M_s,\ell^1)$ und $\Theta\in\mathcal L(\ell^1,\mathcal M_s)$ Markov Operatoren.  
+\end{konstr}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{satz}  
+  Gegeben sei eine Population von $2N(t), t\geq t_0$ haploider Individuen, welche sich innerhalb eines Zeitintervalls $[t_0,\infty)$ mittels genetischem Drift sowie Mutation gemäß des \textsc{Wright-Fisher-Moran Modells} mit \textsc{Kingman-Coalescent} entwickelt. Für zwei zufällig ausgewählte Individuen $A$ und $B$ der Population seien $X_t$ und $Y(t)$ die zugehörigen zeitlich-homogene Markovketteen, welche Mutation an einem ausgewählten Locus der jeweiligen Individuen beschreiben. Sei  $R(t)=(r_{i,j}(t))_{i,j\in\mathbb I}\in\mathcal M$ die Matrix der gemeinsamen Verteilung $r_{i,j}(t)=\text{Pr}(X_t=i,Y(t)=j)$ zum Zeitpunkt $t\geq t_0$ mit  Randverteilung $R(t_0)$. 
+  \par Angenommen, die zugehörige Kolmogorov Matrix $Q$ sei nicht-explosiv, so erhalten wir eine stark stetige Halbgruppe $(P(t))_{t\geq t_0}$ von Markov Operatoren. Für $t\geq s\geq t_0$ setze $S(t):=P(t)\otimes P(t)$ sowie  $g(t,s):=\textnormal{exp}\big(-\int_{s}^t\frac{\text du}{2N(t)}\big)$ und es seien $K\in\mathcal L(\mathcal M_s,\ell^1)$ und $\Theta\in\mathcal L(\ell^1,\mathcal M_s)$ gegeben. Dann gilt:
+  $$R(t)=g(t_0,t)S(t-t_0)R(t_0)+\int_{t_0}^t \frac{1}{2N(s)}g(t,s)S(t-s)\Theta  P(s-t_0) K R(t_0)\text ds.$$
+  
+\end{satz}
+
+\begin{bem}
+   Hierbei repräsentiert der  erste Summand den unabhängigen Mutationsprozess nach dem Zeitpunkt der Trennung geneologischer Entwicklungslinien zweier Individuen $A$ und $B$, wobei der zweite Summand Gendrift repräsentiert.     
+\end{bem}
+
+\begin{proof}[Beweis des Satzes]~
+  \begin{compactenum}
+    \item Da die Individuen nicht unterscheidbar sind, ist $R(t)\in\mathcal M_s$ symmetrisch, d.h. $$r_{i,j}(t)=P(X_t=i,Y(t)=j)=P(X_t=j,Y(t)=i)=r_{j,i}(t).$$ 
+    
+    \item Die Zeit $T$ welche verstrichen ist seit dem frühesten gemeinsamen Vorfahr zweier lebenden Individuen zum Zeitpunkt $t>t_0$ ist eine Zufallsvariable mit der Verteilung $$\text{Pr}[T>s]=\text{exp}\Bigg[-\int_0^s [2N(t-u)]^{-1}\text du\Bigg]\quad s\in[0,t-t_0].$$
+    
+    \item Der Wert $\text{exp}\big(-\int_0^{t-t_0}\frac{\text du}{2N(t-u)}\big)$ ist die Wahrscheinlichkeit, dass die Zufallsvariable $T> t-t_0$ ist, d.h. zwei lebende Individuen zum Zeitpunkt $t>t_0$ haben keinen gemeinsamen Vorfahr für das Zeitintervall $[t_0,\infty)$.
+    
+    \item  Wir schließen, dass Mutation zweier Individuen kein unabhängiges Ereignis ist, da falls deren Chromosome einen gemeinsamen Vorfahr besitzen so sind deren Chromosome um so ähnlicher, je kürzer die Zeit $T$ ist. 
+    
+    \item $g(t,s):=\textnormal{exp}\big(-\int_{s}^t\frac{\text du}{2N(t)}\big)$
+  
+    
+    \item Fall 1: Das Zeitintervall zum letzten gemeinsamen Vorfahr $C$ ist mindestens $t-t_0$, d.h. zum Zeitpunkt $t_0$ besitzen $A$ bzw. $B$ zwei unterschiedliche Vorfahren, und deren gemeinsame Verteilung des Zustands der Allee war $R(t_0)$. Während des Zeitintervalls $[t_0,t]$ entwickelten sich deren Abkommen unabhängig, womit die Verteilung des Paares zum Zeitpunkt $t$ gleich $[P(t-t_0)]^\top R(t_0)P(t-t_0)$ ist. Dies tritt mit der Wahrscheinlichkeit $p(t)$ ein, d.h $$\tilde R(t)=p(t)P^\top (t-t_0)R(t_0)P(t-t_0)=p(t)S(t-t_0)R(t_0).$$
+    
+    \item Fall 2: Dann gibt es $s\in[0,t-t_0)$ so, dass zum Zeitpunkt $t-s$ zwei Vorfahren $A_1$ und $B_1$ von $A$ bzw. $B$ existieren, welche identische Chromosome von einen gemeinsamen Vorfahr $C$ erben. Dieser gemeinsame Vorfahre wiederum ist ein Nachkommen eines Individuums $C_1$, welches zum Zeitpunkt $T_0$ existiert. Damit hat $C_1$ die Verteilung von $R(t_0)$, hat also die Randverteilung ovn $R(t_0)$. Damit war die Verteilung der Allele von $C_1$ zum Zeitpunkt $t_=$ gleich $K\cdot R(t_0)$.
+    
+    Weiter ist die Zeit vom Beginn $t_0$ bis zu der Zeit, wenn $C$ die Nachkommen $A_1$ und $B_1$ liefert gleich $t-s-t_0$ und die Verteilung der Allele von $C$ ist $$P(t-s-t_0)KR(t_0).$$ Weiter ist die gemeinsame Verteilung von $A_1$ und $B_1$ gegen durch $$\Theta P(t-s-t_0)KR(t_0)$$ da die Chromosome der neugeborenen Individuen exakte Kopien deren gemeinsamen Vorfahr sind. 
+    
+    Schließlich für die Zeit $t-s$ weiter entwickeln sich $A_1$ und $B_1$ sowie deren Nachkommen unabhängig. Damit ist zum Zeitpunkt $T$ die Verteilung von $A$ und $B$ gleich $$S(s)\Theta P(t-s-t_0)KR(t_=).$$ Beachte, dass $s\mapsto \frac{1}{2N(t-s)g(s,0)}$ die Dichte der Verteilung der Zufallsvariable $T$ im Zeitintervall $[0,t-t_0]$ ist. Damit erhalten wir schließlich den zweiten Summand für $R(t)$ $$\tilde\tilde R(t)=\int_0^{t-t_0} g\frac{1}{2N(t-s)} g(t,t-s) S(s)\Theta P(t-s-t_0)KR(t_0)\text ds.$$
+    
+    Insgesamt ergibt sich also $$R(t)=\tilde R(t)+\tilde \tilde R(t).$$
+  \end{compactenum}
+\end{proof}
+    
+\section{Die gemeinsame Verteilung und die Master Gleichung}
+    
+\begin{satz} 
+  Für $m\in\mathcal M_s$ sowie $t\geq s\geq t_0$ setze  $$S(t,s)m:=g(t,s)S(t-s)m + \int_s^t \frac{1}{2N (s)}g(t,u)S(t-u)\Theta P(u-s)Km\text du \quad m\in\mathcal M_s.$$Dann gilt
+  $$K S(t,s)m=P(t-s)Km, \quad m\in\mathcal M_s.$$
+\end{satz}
+  
+\begin{proof}
+  
+\end{proof}
+
+\begin{satz}
+  Für alle $t\geq s\geq t_0$ ist $S(t,s)$ ist eine Evolutionsfamilie von Operatoren, d.h. es gilt $$S(t,s)S(s,u)=S(t,u),\quad t\geq s\geq u \geq t_0.$$
+\end{satz}
+
+\begin{proof}
+
+\end{proof}
+  
+\begin{satz}[Master Gleichung]
+  Sei $(P(t))_{t\geq0}$ mit $Q$ beschränkt. Dann ist für alle $s$ die stark stetige Operatorhalbgruppe $(S(t,s))_{t\geq0}$ mit Generator $(G,D(G))$ differenzierbar und es gilt $$\frac{\text d S(t,s)}{ \text dt}=G S(t,s)-\frac{1}{2N(t)}S(t,s)+\frac{1}{2N(t)}\Theta P(t-s)K.$$
+\end{satz}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{satz}[Master Gleichung]
+  Sei $(P(t))_{t\geq0}$ mit $Q$ nicht beschränkt. Dann gilt $$\frac{\text d S(t,s) m}{\text dt}=G S(t,s)m+\frac{1}{2N(t)}\Theta K S(t,s)m-\frac{1}{2N(t)}S(t,s)m.$$
+\end{satz}
+
+\begin{proof}
+
+\end{proof}
+
+\section{Asymptotik der gemeinsamen Verteilung}
+
+\begin{satz}
+  Sei $\lim_{t\to\infty}2N(t)=2N$ konstant. Dann gilt: $$\lim_{t\to\infty} S(t,s)m = \frac{1}{2N}\int_0^\infty \textnormal e^{\frac{u}{2N}} S(u)\Theta P Km=\frac{1}{2N}\Bigg(\frac{1}{2N}-G\Bigg)^{-1}\Theta Km.$$
+\end{satz}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{satz}
+  Sei $\lim_{t\to\infty}2N(t)=\infty$. Dann gilt:
+  $$\lim_{t\to\infty} S(t,s)m=\Theta PKm.$$
+\end{satz}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{satz}
+  Sei $\lim_{t\to\infty}2N(t)=0$. Dann gilt:
+  $$\lim_{t\to\infty} S(t,s)m=(P\otimes P)\Theta PKm.$$
+\end{satz}
+
+\end{comment}
+\end{document}
